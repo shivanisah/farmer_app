@@ -1,11 +1,9 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
+// import 'model.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -22,7 +20,8 @@ class _RegisterState extends State<Register> {
   final _auth = FirebaseAuth.instance;
 
   final TextEditingController passwordController = new TextEditingController();
-  final TextEditingController confirmpassController = new TextEditingController();
+  final TextEditingController confirmpassController =
+      new TextEditingController();
   final TextEditingController name = new TextEditingController();
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController mobile = new TextEditingController();
@@ -30,11 +29,11 @@ class _RegisterState extends State<Register> {
   bool _isObscure2 = true;
   File? file;
   var options = [
-    'Collector',
+    'collector',
     'Farmer',
   ];
-  var _currentItemSelected = "Collector";
-  var role = "Collector";
+  var _currentItemSelected = "collector";
+  var role = "collector";
 
   @override
   Widget build(BuildContext context) {
@@ -274,8 +273,8 @@ class _RegisterState extends State<Register> {
                                 setState(() {
                                   showProgress = true;
                                 });
-                                // signUp(emailController.text,
-                                //     passwordController.text, role);
+                                signUp(emailController.text,
+                                    passwordController.text, role);
                               },
                               child: Text(
                                 "Register",
@@ -297,5 +296,24 @@ class _RegisterState extends State<Register> {
         ),
       ),
     );
+  }
+
+  void signUp(String email, String password, String role) async {
+    CircularProgressIndicator();
+    if (_formkey.currentState!.validate()) {
+      await _auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) => {postDetailsToFirestore(email, role)})
+          .catchError((e) {});
+    }
+  }
+
+  postDetailsToFirestore(String email, String role) async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    var user = _auth.currentUser;
+    CollectionReference ref = FirebaseFirestore.instance.collection('users');
+    ref.doc(user!.uid).set({'email': emailController.text, 'role': role});
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LoginPage()));
   }
 }

@@ -1,7 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'UsersPages/Collector.dart';
+import 'UsersPages/Farmer.dart';
 import 'register.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+
+
 
 
 
@@ -81,9 +86,9 @@ class _LoginPageState extends State<LoginPage> {
                               return null;
                             }
                           },
-                          onSaved: (value) {
-                            emailController.text = value!;
-                          },
+                          // onSaved: (value) {
+                          //   emailController.text = value!;
+                          // },
                           keyboardType: TextInputType.emailAddress,
                         ),
                         SizedBox(
@@ -128,10 +133,10 @@ class _LoginPageState extends State<LoginPage> {
                               return null;
                             }
                           },
-                          onSaved: (value) {
-                            passwordController.text = value!;
-                          },
-                          keyboardType: TextInputType.emailAddress,
+                          // onSaved: (value) {
+                          //   passwordController.text = value!;
+                          // },
+                          // keyboardType: TextInputType.emailAddress,
                         ),
                        
                         SizedBox(
@@ -147,8 +152,8 @@ class _LoginPageState extends State<LoginPage> {
                             setState(() {
                               visible = true;
                             });
-                            // signIn(
-                            //     emailController.text, passwordController.text);
+                            signIn(
+                                emailController.text, passwordController.text);
                           },
                           child: Text(
                             "Login",
@@ -189,15 +194,15 @@ class _LoginPageState extends State<LoginPage> {
                         SizedBox(
                           height: 10,
                         ),
-                        Visibility(
-                            maintainSize: true,
-                            maintainAnimation: true,
-                            maintainState: true,
-                            visible: visible,
-                            child: Container(
-                                child: CircularProgressIndicator(
-                              color: Colors.white,
-                            ))),
+                        // Visibility(
+                        //     maintainSize: true,
+                        //     maintainAnimation: true,
+                        //     maintainState: true,
+                        //     visible: visible,
+                        //     child: Container(
+                        //         child: CircularProgressIndicator(
+                        //       color: Colors.white,
+                        //     ))),
                       ],
                     ),
                   ),
@@ -208,5 +213,40 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+  void signIn(String email,String password) async{
+    if(_formkey.currentState!.validate()){
+      try{
+        UserCredential userCredential = await 
+        FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email,
+           password: password);
+    route();  
+
+      }on FirebaseAuthException catch (e){
+          // Utils.showSnackBar(e.message);
+
+      }
+    }
+  }
+
+
+void route(){
+User? user =  FirebaseAuth.instance.currentUser;
+var data=  FirebaseFirestore.instance.collection('users').doc(user!.uid).get().
+            then((DocumentSnapshot documentSnapshot){
+                          if(documentSnapshot.exists){
+                            if(documentSnapshot.get("role")=="collector"){
+                                    Navigator.pushReplacement(
+                                      context,MaterialPageRoute(builder:(context)=>Collector()),
+                                    );
+                            }
+                            else{
+                                        Navigator.pushReplacement(
+                                                context,MaterialPageRoute(
+                                                builder: (context) => Farmer()));}}}
+                                                
+    );
+
   }
 }
