@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'UsersPages/Admin.dart';
 import 'UsersPages/Collector.dart';
 import 'UsersPages/Farmer.dart';
 import 'register.dart';
@@ -23,14 +24,36 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = new TextEditingController();
 
   final _auth = FirebaseAuth.instance;
+
+  @override
+  void dispose(){
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+        body: Stack(
+        children: [
+          Container(          
+            decoration:BoxDecoration(
+              
+              image:DecorationImage(image:AssetImage("images/agri.jpg"),
+            
+            fit:BoxFit.fill
+            ),
+           
+            )
+),
+Container(color:Colors.black.withOpacity(0.50)),
+
+
+       SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Container(
-              color: Colors.orangeAccent[700],
+              // color: Colors.orangeAccent[700],
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: Center(
@@ -194,15 +217,15 @@ class _LoginPageState extends State<LoginPage> {
                         SizedBox(
                           height: 10,
                         ),
-                        // Visibility(
-                        //     maintainSize: true,
-                        //     maintainAnimation: true,
-                        //     maintainState: true,
-                        //     visible: visible,
-                        //     child: Container(
-                        //         child: CircularProgressIndicator(
-                        //       color: Colors.white,
-                        //     ))),
+                        Visibility(
+                            maintainSize: true,
+                            maintainAnimation: true,
+                            maintainState: true,
+                            visible: visible,
+                            child: Container(
+                                child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ))),
                       ],
                     ),
                   ),
@@ -211,6 +234,8 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ],
         ),
+      ),
+      ],
       ),
     );
   }
@@ -224,7 +249,7 @@ class _LoginPageState extends State<LoginPage> {
     route();  
 
       }on FirebaseAuthException catch (e){
-          // Utils.showSnackBar(e.message);
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text(e.message.toString()),backgroundColor:Colors.red));
 
       }
     }
@@ -241,10 +266,17 @@ var data=  FirebaseFirestore.instance.collection('users').doc(user!.uid).get().
                                       context,MaterialPageRoute(builder:(context)=>Collector()),
                                     );
                             }
-                            else{
+                                else if(documentSnapshot.get("role")=="Farmer"){
+                                    Navigator.pushReplacement(
+                                      context,MaterialPageRoute(builder:(context)=>Farmer()),
+                                    );
+                            }
+
+
+                             else{
                                         Navigator.pushReplacement(
                                                 context,MaterialPageRoute(
-                                                builder: (context) => Farmer()));}}}
+                                                builder: (context) => Admin()));}}}
                                                 
     );
 
