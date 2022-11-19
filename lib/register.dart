@@ -20,14 +20,10 @@ class _RegisterState extends State<Register> {
   final _auth = FirebaseAuth.instance;
 
   final TextEditingController passwordController = new TextEditingController();
-  final TextEditingController confirmpassController =
-      new TextEditingController();
-  final TextEditingController name = new TextEditingController();
+  final TextEditingController confirmpassController =new TextEditingController();
   final TextEditingController emailController = new TextEditingController();
-  final TextEditingController mobile = new TextEditingController();
   bool _isObscure = true;
   bool _isObscure2 = true;
-  File? file;
   var options = [
     'collector',
     'Farmer',
@@ -99,6 +95,8 @@ Container(color:Colors.black.withOpacity(0.50)),
                           TextFormField(
                             controller: emailController,
                             decoration: InputDecoration(
+                            prefixIcon:Icon(Icons.email),
+
                               filled: true,
                               fillColor: Colors.white,
                               hintText: 'Email',
@@ -136,6 +134,8 @@ Container(color:Colors.black.withOpacity(0.50)),
                             obscureText: _isObscure,
                             controller: passwordController,
                             decoration: InputDecoration(
+                            prefixIcon:Icon(Icons.password),
+
                               suffixIcon: IconButton(
                                   icon: Icon(_isObscure
                                       ? Icons.visibility_off
@@ -180,6 +180,8 @@ Container(color:Colors.black.withOpacity(0.50)),
                             obscureText: _isObscure2,
                             controller: confirmpassController,
                             decoration: InputDecoration(
+                             prefixIcon:Icon(Icons.password),
+
                               suffixIcon: IconButton(
                                   icon: Icon(_isObscure2
                                       ? Icons.visibility_off
@@ -260,33 +262,11 @@ Container(color:Colors.black.withOpacity(0.50)),
                           SizedBox(
                             height: 20,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              MaterialButton(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20.0))),
-                                elevation: 5.0,
-                                height: 40,
-                                onPressed: () {
-                                  CircularProgressIndicator();
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => LoginPage(),
-                                    ),
-                                  );
-                                },
-                                child: Text(
-                                  "Login",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                color: Colors.white,
-                              ),
+                          
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          //   crossAxisAlignment: CrossAxisAlignment.end,
+                          //   children: [
                               MaterialButton(
                                 shape: RoundedRectangleBorder(
                                     borderRadius:
@@ -308,8 +288,28 @@ Container(color:Colors.black.withOpacity(0.50)),
                                 ),
                                 color: Colors.white,
                               ),
-                            ],
-                          ),
+                          //   ],
+                          // ),
+                          SizedBox(height:20),
+                         TextButton(
+                                onPressed: () {
+                                  CircularProgressIndicator();
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => LoginPage(),
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                  "Already have an account? Login",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+
+
                         ],
                       ),
                     ),
@@ -325,7 +325,8 @@ Container(color:Colors.black.withOpacity(0.50)),
 
  void signUp(String email, String password, String role) async {
     CircularProgressIndicator();
-    if (_formkey.currentState!.validate()) {
+    if (_formkey.currentState!.validate())
+     {
       
           await _auth.createUserWithEmailAndPassword(email: email, password: password)
           .then((value) => {postDetailsToFirestore(email, role)})

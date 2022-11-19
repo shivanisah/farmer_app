@@ -82,6 +82,7 @@ Container(color:Colors.black.withOpacity(0.50)),
                         TextFormField(
                           controller: emailController,
                           decoration: InputDecoration(
+                            prefixIcon:Icon(Icons.mail),
                             filled: true,
                             fillColor: Colors.white,
                             hintText: 'Email',
@@ -121,6 +122,7 @@ Container(color:Colors.black.withOpacity(0.50)),
                           controller: passwordController,
                           obscureText: _isObscure3,
                           decoration: InputDecoration(
+                            prefixIcon:Icon(Icons.password),
                             suffixIcon: IconButton(
                                 icon: Icon(_isObscure3
                                     ? Icons.visibility
@@ -190,13 +192,8 @@ Container(color:Colors.black.withOpacity(0.50)),
                         SizedBox(
                           height: 20,
                         ),
-                        MaterialButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0))),
-                          elevation: 5.0,
-                          height: 40,
-                      onPressed: () {
+                        TextButton(
+                     onPressed: () {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -206,12 +203,11 @@ Container(color:Colors.black.withOpacity(0.50)),
                       },
                           child: Text(
                             
-                            "Register Now",
+                            "Don't have an account? Register",
                             style: TextStyle(
                               fontSize: 20,
                             ),
                           ),
-                          color: Colors.blue,
                         ),
 
                         SizedBox(
@@ -268,7 +264,7 @@ var data=  FirebaseFirestore.instance.collection('users').doc(user!.uid).get().
                             }
                                 else if(documentSnapshot.get("role")=="Farmer"){
                                     Navigator.pushReplacement(
-                                      context,MaterialPageRoute(builder:(context)=>Farmer()),
+                                      context,MaterialPageRoute(builder:(context)=>Farmer(user)),
                                     );
                             }
 
