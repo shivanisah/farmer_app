@@ -236,7 +236,8 @@ Container(color:Colors.black.withOpacity(0.50)),
     );
   }
   void signIn(String email,String password) async{
-    if(_formkey.currentState!.validate()){
+    if(_formkey.currentState!.validate())
+    {
       try{
         UserCredential userCredential = await 
         FirebaseAuth.instance.signInWithEmailAndPassword(

@@ -1,3 +1,4 @@
+import 'package:agriculture/CollectorPages/drawer.dart';
 import 'package:agriculture/FarmerPages/Profile.dart';
 import 'package:agriculture/models/Farmer_profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -25,6 +26,8 @@ class _CollectionDetailPageState extends State<CollectionDetailPage> {
   TextEditingController collectedLocationController =TextEditingController();
   TextEditingController moistureController =TextEditingController();
   TextEditingController followUpController =TextEditingController();
+  TextEditingController farmerDetailController =TextEditingController();
+
   bool loading = false;
   var option = [
     'Item1',
@@ -38,6 +41,7 @@ class _CollectionDetailPageState extends State<CollectionDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    var time = DateTime.now();
     final  userId = ModalRoute.of(context)!.settings.arguments as String;
       print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
         // print(farmerData);
@@ -45,6 +49,7 @@ class _CollectionDetailPageState extends State<CollectionDetailPage> {
         // print(data.Email);
 
     return Scaffold(
+      drawer:SideBar(),
     appBar:AppBar(title:Text("Collection Details")),  
   
     // body: Center(child: Text('this $userId')),
@@ -69,10 +74,12 @@ class _CollectionDetailPageState extends State<CollectionDetailPage> {
                     ),
                     SizedBox(height:20),
                   TextFormField(
-                    keyboardType:TextInputType.number,
+                  keyboardType:TextInputType.multiline,
+                  maxLines:5,           
+
                     controller:numberReceiverController,
                     decoration:InputDecoration(
-                    labelText:"Number of receiver",
+                    labelText:"Receiver Detail",
                       // icon: Icon(Icons.group)
 
                     )
@@ -83,10 +90,22 @@ class _CollectionDetailPageState extends State<CollectionDetailPage> {
                   controller:numberHiveController,
                     decoration:InputDecoration(
                     labelText:"Number of hive",
-                      // icon: Icon(Icons.email)
 
                     )
                   ),
+                  SizedBox(height:20),
+                  
+                  TextFormField(
+                    decoration:InputDecoration(
+                    // labelText:"Date and time",
+                    hintText:"Date and Time: $time",
+                    enabled:false,
+                    // hintStyle:Text(style:TextStylw)
+                    
+                    )
+
+                  ),
+
               SizedBox(height:20),
                               DropdownButtonFormField<String>(
                                 decoration:InputDecoration(
@@ -115,16 +134,17 @@ class _CollectionDetailPageState extends State<CollectionDetailPage> {
                                 },
                                 value: currentItemSelected,
                               ),
+        SizedBox(height:20),
+                    TextFormField(
+    controller: farmerDetailController,
+    keyboardType: TextInputType.multiline,
+    maxLines:4,
 
-//                     TextFormField(
-//     controller: honeyTypeController,
-//     keyboardType: TextInputType.number,
-
-//     decoration: InputDecoration(
-//         labelText:"Select honey type", 
-//         // icon: Icon(Icons.phone_android_outlined)
-//     )
-// ),
+    decoration: InputDecoration(
+        labelText:"Farmer Details", 
+        // icon: Icon(Icons.phone_android_outlined)
+    )
+),
               SizedBox(height:20),
                                 TextFormField(
                     controller:collectedLocationController,
@@ -169,7 +189,7 @@ class _CollectionDetailPageState extends State<CollectionDetailPage> {
 
             loading?Center(child:CircularProgressIndicator(),):Container(
                     child: ElevatedButton(onPressed:()async{
-                      if(numberReceiverController.text==""|| numberHiveController.text==""
+                      if(numberReceiverController.text==""|| numberHiveController.text==""||farmerDetailController.text==""
                       ||  collectedLocationController.text==""|| moistureController.text==""|| followUpController.text==""
                       ){
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("All fields are required"),backgroundColor:Colors.red));
@@ -178,7 +198,7 @@ class _CollectionDetailPageState extends State<CollectionDetailPage> {
                           loading:true;
                         });
                        
-                        await FireStoreService().addCollectionDetail(numberReceiverController.text,numberHiveController.text,type_of_honey,collectedLocationController.text,moistureController.text,
+                        await FireStoreService().addCollectionDetail(numberReceiverController.text,numberHiveController.text,type_of_honey,farmerDetailController.text,collectedLocationController.text,moistureController.text,
                         followUpController.text,userId);
                         setState(() {
                           loading=false;

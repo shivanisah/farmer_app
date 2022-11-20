@@ -4,7 +4,8 @@ import 'package:flutter/cupertino.dart';
 class FireStoreService{
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future createProfile(String name,String email,String phone_number,String additional_number,String permanent_address,String temporary_address,String capacity_of_production,
+  Future createProfile(String name,String email,String phone_number,String additional_number,String permanent_address,String temporary_address,
+                           String lat_and_long_location,String capacity_of_production,
   String possible_migration,String number_of_beehive,String userId) 
   async{
     try{
@@ -15,6 +16,7 @@ class FireStoreService{
           "additional_number":additional_number,
           "permanent_address":permanent_address,
           "temporary_address":temporary_address,
+          "lat_long_location":lat_and_long_location,
           "capacity_of_production":capacity_of_production,
           "possible_migration":possible_migration,
           "number_of_beehive":number_of_beehive,
@@ -26,7 +28,24 @@ class FireStoreService{
 
     }
   }
-Future addCollectionDetail(String number_of_receiver,String number_of_hive,String type_of_honey,
+
+  Future CollectorProfileCreate(String full_name,String email,String phone_number) 
+  async{
+    try{
+        await firestore.collection('Collectors_profile').add({
+          "full_name":full_name,
+          "email":email,
+          "phone_number":phone_number,
+          // "UserId":UserId,
+
+        });
+    }catch(e){
+
+    }
+  }
+
+
+Future addCollectionDetail(String number_of_receiver,String number_of_hive,String type_of_honey,String farmer_detail,
                             String collected_location,String moisture_report,String follow_of_status,String userId)
          async {
         try{
@@ -34,10 +53,14 @@ Future addCollectionDetail(String number_of_receiver,String number_of_hive,Strin
             "number_of_receiver":number_of_receiver,
             "number_of_hive":number_of_hive,            
             "type_of_honey":type_of_honey,
+            "farmer_detail":farmer_detail,
             "collected_location":collected_location,
             "moisture_report":moisture_report,
             "follow_of_status":follow_of_status,
             "userId":userId,
+            "date":DateTime.now(),
+
+
 
 
           });

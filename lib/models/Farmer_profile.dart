@@ -15,6 +15,7 @@ class profileModel{
   String number_of_beehive;
   String capacity_of_production;
   Timestamp date;
+  String lat_long_location;
   String userId;
    
 
@@ -30,6 +31,7 @@ class profileModel{
       required this.migration_location,
       required this.number_of_beehive,
       required this.capacity_of_production,
+      required this.lat_long_location,
       required this.date,
       required this.userId,
     }
@@ -47,24 +49,9 @@ class profileModel{
         number_of_beehive:snapshot['number_of_beehive'],
         capacity_of_production:snapshot['capacity_of_production'],
         date:snapshot['date'],
-        userId:snapshot['userId']
+        userId:snapshot['userId'],
+        lat_long_location:snapshot['lat_long_location'], 
     );
    }
 
-   factory profileModel.frommJson(Object  ){
-    return profileModel(
-        id:Object.id,
-        name:Object['name'],
-        phone_number:Object['phone_number'],
-        temporary_address:Object['temporary_address'],
-        permanent_address:Object['permanent_address'],
-        additional_number:Object['additional_number'],
-        Email        :Object['email'],
-        migration_location :Object['possible_migration'],
-        number_of_beehive:Object['number_of_beehive'],
-        capacity_of_production:Object['capacity_of_production'],
-        date:Object['date'],
-        userId:Object['userId']
-    );
-   }
 }

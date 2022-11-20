@@ -7,7 +7,10 @@ class CollectionDetails{
   String moisture_report;
   String follow_of_status;
   String type_of_honey;
+  String farmer_detail;
   String userId;
+  Timestamp date;
+
 
 CollectionDetails({
   required this.number_of_receiver,
@@ -15,7 +18,9 @@ CollectionDetails({
   required this.collected_location,  
   required this.moisture_report,  
   required this.follow_of_status,  
-  required this.type_of_honey, 
+  required this.type_of_honey,
+  required this.farmer_detail, 
   required this.userId, 
+  required this.date,
 });
 }
