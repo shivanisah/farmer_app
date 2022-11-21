@@ -81,6 +81,10 @@ Container(color:Colors.black.withOpacity(0.50)),
                         ),
                         TextFormField(
                           controller: emailController,
+                          // autovalidateMode:AutovalidateMode.onUserInteraction,
+                          // obscureText:true,
+
+
                           decoration: InputDecoration(
                             prefixIcon:Icon(Icons.mail),
                             filled: true,

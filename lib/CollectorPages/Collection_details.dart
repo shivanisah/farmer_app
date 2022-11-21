@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:agriculture/CollectorPages/drawer.dart';
 import 'package:agriculture/FarmerPages/Profile.dart';
 import 'package:agriculture/models/Farmer_profile.dart';
@@ -100,6 +102,7 @@ class _CollectionDetailPageState extends State<CollectionDetailPage> {
                     // labelText:"Date and time",
                     hintText:"Date and Time: $time",
                     enabled:false,
+                    // hintStyle:TextStyle(fontWeight:FontWeight.bold)
                     // hintStyle:Text(style:TextStylw)
                     
                     )
@@ -109,7 +112,8 @@ class _CollectionDetailPageState extends State<CollectionDetailPage> {
               SizedBox(height:20),
                               DropdownButtonFormField<String>(
                                 decoration:InputDecoration(
-                                  labelText:"Select honey type"
+                                  labelText:"Select honey type",
+                                  labelStyle:TextStyle(fontSize:20)
                                 ),
 
                                 // dropdownColor: Colors.blue[900],
@@ -203,7 +207,15 @@ class _CollectionDetailPageState extends State<CollectionDetailPage> {
                         setState(() {
                           loading=false;
                         });
-                        Navigator.push(context,MaterialPageRoute(builder:(context)=>Collector()));
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Profile created successfully"),backgroundColor:Colors.green));
+
+                        Timer(Duration(seconds: 2),(){
+                         Navigator.push(context,MaterialPageRoute(builder:(context)=>Collector()));
+
+
+                        });
+  
+
                       }
 
 

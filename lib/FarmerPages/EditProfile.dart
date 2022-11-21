@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:agriculture/FarmerPages/drawer.dart';
+import 'package:agriculture/models/Farmer_profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 
@@ -12,14 +13,17 @@ import '../login.dart';
 import '../services/firestore_service.dart';
 import 'ViewProfile.dart';
 
-class Profile extends StatefulWidget {
-  User user ;
-  Profile(this.user);
+class EditFarmerProfile extends StatefulWidget {
+  profileModel profile;
+  EditFarmerProfile(this.profile);
+  
+  // User get user =>FirebaseAuth.instance.f ;
   @override
-  State<Profile> createState() => _ProfileState();
+  State<EditFarmerProfile> createState() => _EditFarmerProfileState();
 }
 
-class _ProfileState extends State<Profile> {
+class _EditFarmerProfileState extends State<EditFarmerProfile> {
+      // User? user = FirebaseAuth.instance.currentUser;
   String MyEmail="";
 
   TextEditingController nameController = TextEditingController();
@@ -32,11 +36,23 @@ class _ProfileState extends State<Profile> {
   TextEditingController noBeehiveController =TextEditingController();
   TextEditingController capacityController =TextEditingController();
   TextEditingController latLong_locationController =TextEditingController();
-
   bool loading = false;
   final formkey = GlobalKey<FormState>();
  @override
   void initState(){
+    nameController.text=widget.profile.name;
+    phoneController.text=widget.profile.phone_number;
+    emailController.text=widget.profile.Email;
+    permanentAddController.text=widget.profile.permanent_address;
+    temporaryAddController.text=widget.profile.temporary_address;
+    possibleMigController.text=widget.profile.migration_location;
+    additionalNumberController.text=widget.profile.additional_number;
+    noBeehiveController.text=widget.profile.number_of_beehive;
+    capacityController.text=widget.profile.capacity_of_production;  
+    latLong_locationController.text=widget.profile.lat_long_location;
+
+
+
 
     farmer_profile();
 
@@ -63,29 +79,29 @@ class _ProfileState extends State<Profile> {
               title:Text('Home',style:TextStyle(color:Colors.black,fontSize:16 )),
               leading:Icon(Icons.home,color:Colors.blue),
               trailing:Icon(Icons.arrow_forward),
-              onTap:()=>  Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) =>Farmer(widget.user)
-                )
-              )
+              // onTap:()=>  Navigator.pushReplacement(context,
+              //   MaterialPageRoute(builder: (context) =>Farmer(widget)
+              //   )
+              // )
             ),
 
-            ListTile(
-              title:Text('Create Profile',style:TextStyle(color:Colors.black,fontSize:16 )),
-              leading:Icon(Icons.person_add_alt_1_rounded,color:Colors.blue),
-              trailing:Icon(Icons.arrow_forward),
-              onTap:()=>  Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => Profile(widget.user)
-                )
-              )
-            ),
+            // ListTile(
+            //   title:Text('Profile',style:TextStyle(color:Colors.black,fontSize:16 )),
+            //   leading:Icon(Icons.person_add_alt_1_rounded,color:Colors.blue),
+            //   trailing:Icon(Icons.arrow_forward),
+            //   onTap:()=>  Navigator.pushReplacement(context,
+            //     MaterialPageRoute(builder: (context) => Profile(widget.user)
+            //     )
+            //   )
+            // ),
             ListTile(
               title:Text('View Profile',style:TextStyle(color:Colors.black,fontSize:16 )),
               leading:Icon(Icons.person_rounded,color:Colors.blue),
               trailing:Icon(Icons.arrow_forward),
-                onTap:()=>  Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) =>ViewProfile(widget.user)
-                )
-              )
+              //   onTap:()=>  Navigator.pushReplacement(context,
+              //   MaterialPageRoute(builder: (context) =>ViewProfile(widget.user)
+              //   )
+              // )
             ),
             ListTile(
               title:Text('Log Out',style:TextStyle(color:Colors.black,fontSize:16 )),
@@ -103,14 +119,7 @@ class _ProfileState extends State<Profile> {
 
 
       appBar:AppBar(
-//         leading:BackButton(onPressed:()=>Navigator.pushReplacement(
-//                           context,
-//                           MaterialPageRoute(
-//                             builder: (context) => ViewProfile(widget.user),
-//                           ),
-//                         )
-// ,),
-        title:Text("Farmer")
+        title:Text("Edit Profile")
       ),
       body:
       SingleChildScrollView(
@@ -138,14 +147,14 @@ class _ProfileState extends State<Profile> {
                         ),
 
                     SizedBox(height:10),
-                  Text(
-                    "Your Details",
-                    style:TextStyle(
-                      fontSize:20,
-                      fontWeight:FontWeight.bold,
-                    )
-                    ),
-                    SizedBox(height:20),
+                  // Text(
+                  //   "Your Details",
+                  //   style:TextStyle(
+                  //     fontSize:20,
+                  //     fontWeight:FontWeight.bold,
+                  //   )
+                  //   ),
+                    // SizedBox(height:20),
                   TextFormField(
                     controller:nameController,
                     decoration:InputDecoration(
@@ -390,16 +399,17 @@ class _ProfileState extends State<Profile> {
                           loading:true;
                         });
                        
-                        await FireStoreService().createProfile(nameController.text,emailController.text,phoneController.text,additionalNumberController.text,permanentAddController.text,
+                        await FireStoreService().updateFarmerProfile(nameController.text,emailController.text,phoneController.text,additionalNumberController.text,permanentAddController.text,
                         temporaryAddController.text,latLong_locationController.text,capacityController.text,possibleMigController.text,noBeehiveController.text,
-                        widget.user.uid);
+                        widget.profile.id);
                         setState(() {
                           loading=false;
                         });
-                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Profile created successfully"),backgroundColor:Colors.green));
+                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Profile updated successfully successfully"),backgroundColor:Colors.green));
 
                         Timer(Duration(seconds: 2),(){
-                   Navigator.push(context,MaterialPageRoute(builder:(context)=>ViewProfile(widget.user)));
+                  //  Navigator.push(context,MaterialPageRoute(builder:(context)=>ViewProfile(widget.user)));
+                        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
                         });
   
@@ -409,7 +419,7 @@ class _ProfileState extends State<Profile> {
 
 
                     },
-                    child:Text("Create"),),
+                    child:Text("Update Profile"),),
                   ),
                 ],)
               )
@@ -475,7 +485,7 @@ Widget buildEditIcon(Color color)=>
           color:color,
           all:8,
           child: Icon(
-            Icons.edit,
+            Icons.add_a_photo,
             size:20,
             color:Colors.white,
           

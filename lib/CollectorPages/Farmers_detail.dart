@@ -57,7 +57,16 @@ class _Farmers_DetailState extends State<Farmers_Detail> {
                            decoration: BoxDecoration(),
                             child: ListTile(
                               contentPadding:EdgeInsets.symmetric(horizontal:10,vertical:5),
-                              title:Text("Name: "+profile.name,style:TextStyle(fontSize:16,fontWeight:FontWeight.bold)),
+                              title:Text.rich(TextSpan(text:"Name: ",
+                              style:TextStyle(fontSize:16,fontWeight:FontWeight.bold),
+                              children:[
+                                TextSpan(text:profile.name,
+                                style:TextStyle(fontSize:16)
+                                )
+                              ]
+                              )
+                              ),
+                              // title:Text("Name: "+profile.name,style:TextStyle(fontSize:16,fontWeight:FontWeight.bold)),
                               subtitle:Text("Phone number: "+profile.phone_number.toString(),style:TextStyle(fontSize:10,fontWeight:FontWeight.bold),),
                               leading: Icon(Icons.person),
                               dense:true,

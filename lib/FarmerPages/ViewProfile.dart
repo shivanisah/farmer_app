@@ -1,3 +1,4 @@
+import 'package:agriculture/FarmerPages/EditProfile.dart';
 import 'package:agriculture/login.dart';
 import 'package:agriculture/models/Farmer_profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -125,10 +126,10 @@ String MyEmail = "";
                         
                 SizedBox(height:20),
                 Center(child:ElevatedButton(onPressed:(){
-                // Navigator.pushReplacement(context,
-                // MaterialPageRoute(builder: (context) => Profile(widget.user)
-                // )
-                // );
+                Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => EditFarmerProfile(profile)
+                )
+                );
               },
               child:Text("Edit  Profile"),
                ) ,),

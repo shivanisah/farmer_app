@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:agriculture/CollectorPages/drawer.dart';
 import 'package:agriculture/FarmerPages/drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -159,7 +161,13 @@ class _CollectorProfileState extends State<CollectorProfile> {
                         setState(() {
                           loading=false;
                         });
-                        Navigator.push(context,MaterialPageRoute(builder:(context)=>Collector()));
+                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Profile created successfully"),backgroundColor:Colors.green));
+
+                        Timer(Duration(seconds: 2),(){
+                          Navigator.push(context,MaterialPageRoute(builder:(context)=>Collector()));
+
+                        });
+
 
                       }catch(e){};
 

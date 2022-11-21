@@ -39,6 +39,7 @@ class _FarmerState extends State<Farmer> {
         child:ListView(
           children: [
             UserAccountsDrawerHeader(
+              
               accountName: Text("Hello"), accountEmail: Text(MyEmail),
             currentAccountPicture:CircleAvatar(backgroundColor:Colors.white,
             backgroundImage:AssetImage('images/agri.jpg'))

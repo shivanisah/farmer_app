@@ -29,6 +29,33 @@ class FireStoreService{
     }
   }
 
+
+    Future updateFarmerProfile(String name,String email,String phone_number,String additional_number,String permanent_address,String temporary_address,
+                           String lat_and_long_location,String capacity_of_production,
+  String possible_migration,String number_of_beehive,String docId) 
+  async{
+    try{
+        await firestore.collection('Farmers_profile').doc(docId).update({
+          "name":name,
+          "email":email,
+          "phone_number":phone_number,
+          "additional_number":additional_number,
+          "permanent_address":permanent_address,
+          "temporary_address":temporary_address,
+          "lat_long_location":lat_and_long_location,
+          "capacity_of_production":capacity_of_production,
+          "possible_migration":possible_migration,
+          "number_of_beehive":number_of_beehive,
+          "date":DateTime.now(),
+          "docId":docId
+
+        });
+    }catch(e){
+
+    }
+  }
+
+
   Future CollectorProfileCreate(String full_name,String email,String phone_number) 
   async{
     try{

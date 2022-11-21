@@ -6,6 +6,7 @@ class profileModel{
   String id;
   String name;
   String Email;
+  // final String imagePath;
   // // File idproof;
   String phone_number;
   String additional_number;
@@ -23,6 +24,7 @@ class profileModel{
     {
       required this.id,
       required this.name,
+      // required this.imagePath,
       required this.Email,
       required this.phone_number,
       required this.permanent_address,
@@ -40,6 +42,7 @@ class profileModel{
     return profileModel(
         id:snapshot.id,
         name:snapshot['name'],
+        // imagePath:snapshot['imagePath'],
         phone_number:snapshot['phone_number'],
         temporary_address:snapshot['temporary_address'],
         permanent_address:snapshot['permanent_address'],
