@@ -269,7 +269,7 @@ var data=  FirebaseFirestore.instance.collection('users').doc(user!.uid).get().
                             }
                                 else if(documentSnapshot.get("role")=="Farmer"){
                                     Navigator.pushReplacement(
-                                      context,MaterialPageRoute(builder:(context)=>Farmer(user)),
+                                      context,MaterialPageRoute(builder:(context)=>Farmer()),
                                     );
                             }
 

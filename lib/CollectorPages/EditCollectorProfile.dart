@@ -1,6 +1,10 @@
 import 'dart:async';
 
+import 'package:agriculture/CollectorPages/CollectorProfileView.dart';
+import 'package:agriculture/CollectorPages/Farmers_detail.dart';
 import 'package:agriculture/FarmerPages/drawer.dart';
+import 'package:agriculture/UsersPages/Collector.dart';
+import 'package:agriculture/models/CollectorProfile.dart';
 import 'package:agriculture/models/Farmer_profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
@@ -11,49 +15,32 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../UsersPages/Farmer.dart';
 import '../login.dart';
 import '../services/firestore_service.dart';
-import 'ViewProfile.dart';
 
-class EditFarmerProfile extends StatefulWidget {
-  profileModel profile;
-  EditFarmerProfile(this.profile);
-  
-  // User get user =>FirebaseAuth.instance.f ;
+class EditCollectorProfile extends StatefulWidget {
+  Collector_profile_model  profile;
+  EditCollectorProfile(this.profile);
   @override
-  State<EditFarmerProfile> createState() => _EditFarmerProfileState();
+  State<EditCollectorProfile> createState() => _EditCollectorProfileState();
 }
 
-class _EditFarmerProfileState extends State<EditFarmerProfile> {
-      // User? user = FirebaseAuth.instance.currentUser;
+class _EditCollectorProfileState extends State<EditCollectorProfile> {
+  // ignore: non_constant_identifier_names
+ 
+
+
   String MyEmail="";
 
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController =TextEditingController();
-  TextEditingController permanentAddController =TextEditingController();
-  TextEditingController temporaryAddController =TextEditingController();
-  TextEditingController possibleMigController =TextEditingController();
   TextEditingController emailController =TextEditingController();
-  TextEditingController additionalNumberController =TextEditingController();
-  TextEditingController noBeehiveController =TextEditingController();
-  TextEditingController capacityController =TextEditingController();
-  TextEditingController latLong_locationController =TextEditingController();
   bool loading = false;
   final formkey = GlobalKey<FormState>();
  @override
   void initState(){
-    nameController.text=widget.profile.name;
+    nameController.text=widget.profile.full_name;
+    
     phoneController.text=widget.profile.phone_number;
-    emailController.text=widget.profile.Email;
-    permanentAddController.text=widget.profile.permanent_address;
-    temporaryAddController.text=widget.profile.temporary_address;
-    possibleMigController.text=widget.profile.migration_location;
-    additionalNumberController.text=widget.profile.additional_number;
-    noBeehiveController.text=widget.profile.number_of_beehive;
-    capacityController.text=widget.profile.capacity_of_production;  
-    latLong_locationController.text=widget.profile.lat_long_location;
-
-
-
-
+    emailController.text=widget.profile.email;
     farmer_profile();
 
     super.initState();
@@ -62,6 +49,11 @@ class _EditFarmerProfileState extends State<EditFarmerProfile> {
 
   @override
   Widget build(BuildContext context) {
+    // final  Profile = ModalRoute.of(context)!.settings.arguments ;
+    // print("Profile........................................List");
+    // print(widget.Profile.full_name);
+    // var data = Collector_profile_model.frommJson(Profile)
+
     final color = Colors.blue;
     // final profil = ViewProfile(widget.user);
     return Scaffold(
@@ -80,7 +72,7 @@ class _EditFarmerProfileState extends State<EditFarmerProfile> {
               leading:Icon(Icons.home,color:Colors.blue),
               trailing:Icon(Icons.arrow_forward),
               onTap:()=>  Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) =>Farmer()
+                MaterialPageRoute(builder: (context) =>Collector()
                 )
               )
             ),
@@ -95,14 +87,24 @@ class _EditFarmerProfileState extends State<EditFarmerProfile> {
             //   )
             // ),
             ListTile(
-              title:Text('View Profile',style:TextStyle(color:Colors.black,fontSize:16 )),
+              title:Text('Profile',style:TextStyle(color:Colors.black,fontSize:16 )),
               leading:Icon(Icons.person_rounded,color:Colors.blue),
               trailing:Icon(Icons.arrow_forward),
                 onTap:()=>  Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) =>ViewProfile()
+                MaterialPageRoute(builder: (context) =>CollectorViewProfile()
                 )
               )
             ),
+                        ListTile(
+              title:Text('Collections',style:TextStyle(color:Colors.black,fontSize:16 )),
+              leading:Icon(Icons.person_rounded,color:Colors.blue),
+              trailing:Icon(Icons.arrow_forward),
+                onTap:()=>  Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) =>Farmers_Detail()
+                )
+              )
+            ),
+
             ListTile(
               title:Text('Log Out',style:TextStyle(color:Colors.black,fontSize:16 )),
               leading:Icon(Icons.logout_rounded,color:Colors.blue),
@@ -134,6 +136,7 @@ class _EditFarmerProfileState extends State<EditFarmerProfile> {
                   // mainAxisAlignment:MainAxisAlignment.start,
                   crossAxisAlignment:CrossAxisAlignment.center,
                   children: [
+
                     Stack(
                       
                       children: [
@@ -230,161 +233,6 @@ class _EditFarmerProfileState extends State<EditFarmerProfile> {
 
 
 ),
-              SizedBox(height:20),
-                                TextFormField(
-                    keyboardType: TextInputType.number,
-
-                    controller:additionalNumberController,
-                    decoration:InputDecoration(
-                    labelText:"Additionl number",
-                      icon: Icon(Icons.phone)
-
-                    ),
-               validator:(value){
-                      if(value!.isEmpty){
-                              return null;
-
-                      }
-                     if(!RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)').hasMatch(value)){
-                          return "Enter correct number";
-                      }
-
-                      else{
-                        return null;
-                      }
-                    },
-
-                  ),
-              SizedBox(height:20),
-
-
-  TextFormField(
-    controller: permanentAddController,
-    
-
-    decoration: InputDecoration(
-        labelText:"Permanent address", 
-        // hintText: "Enter your permanent address",
-        icon: Icon(Icons.home)
-    ),
-                        validator:(value){
-                      if(value!.isEmpty){
-                              return "This field is required";
-
-                      }
-                      else{
-                        return null;
-                      }
-                    },
-
-),
-                  SizedBox(
-                    height:20,
-                  ),
-
-                  TextFormField(
-                    controller:temporaryAddController,
-                    decoration:InputDecoration(
-                      // border:OutlineInputBorder(),
-                    labelText:"Temporary address",
-                      icon: Icon(Icons.location_city),
-
-                    ),
-                                        validator:(value){
-                      if(value!.isEmpty){
-                              return "This field is required";
-
-                      }
-                      else{
-                        return null;
-                      }
-                    },
-
-
-                  ),
-                                   SizedBox(
-                    height:20,
-                  ),
-
-                  TextFormField(
-                    controller:latLong_locationController,
-                    decoration:InputDecoration(
-                    labelText:"Location latitude and longitude",
-                    icon: Icon(Icons.directions)
-
-
-                    )
-
-                  ),
-
-
-             SizedBox(
-                    height:20,
-                  ),
-
-                           TextFormField(
-
-                    controller:capacityController,
-                    decoration:InputDecoration(
-                    labelText:"Quantity of production",
-                      icon: Icon(Icons.line_weight)
-
-                    ),
-                    validator:(value){
-                      if(value!.isEmpty){
-                              return "This field is required";
-
-                      }
-                      else{
-                        return null;
-                      }
-                    },
-
-                  ),
-              SizedBox(height:20),
-                                TextFormField(
-                     keyboardType:TextInputType.multiline,
-                     maxLines:5,           
-                    controller:possibleMigController,
-                    decoration:InputDecoration(
-                    labelText:"Possible migration",
-                      icon: Icon(Icons.card_travel_outlined)
-
-                    ),
-                  validator:(value){
-                      if(value!.isEmpty){
-                              return "This field is required";
-
-                      }
-                      else{
-                        return null;
-                      }
-                    },
-
-                  ),
-              SizedBox(height:20),
-                  TextFormField(
-                  keyboardType: TextInputType.number,
-
-                    controller:noBeehiveController,
-                    decoration:InputDecoration(
-                    labelText:"Beehive number",
-                      icon: Icon(Icons.person),
-
-                    ),
-
-                    validator:(value){
-                      if(value!.isEmpty){
-                              return "This field is required";
-
-                      }
-                      else{
-                        return null;
-                      }
-                    },
-
-                  ),
-              SizedBox(height:20),
 
 
          
@@ -395,21 +243,20 @@ class _EditFarmerProfileState extends State<EditFarmerProfile> {
 
                       {
                         try{
-                                                      setState(() {
+                          setState(() {
                           loading:true;
                         });
                        
-                        await FireStoreService().updateFarmerProfile(nameController.text,emailController.text,phoneController.text,additionalNumberController.text,permanentAddController.text,
-                        temporaryAddController.text,latLong_locationController.text,capacityController.text,possibleMigController.text,noBeehiveController.text,
-                        widget.profile.id);
+                        await FireStoreService().updateCollectorProfile(nameController.text,emailController.text,phoneController.text,
+                           widget.profile.id);
                         setState(() {
                           loading=false;
                         });
-                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Profile updated successfully"),backgroundColor:Colors.green));
+                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Profile updated successfully successfully"),backgroundColor:Colors.green));
 
                         Timer(Duration(seconds: 2),(){
-                   Navigator.push(context,MaterialPageRoute(builder:(context)=>ViewProfile()));
-                        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                   Navigator.push(context,MaterialPageRoute(builder:(context)=>CollectorViewProfile()));
+                        // print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
                         });
   

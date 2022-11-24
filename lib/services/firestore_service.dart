@@ -56,20 +56,37 @@ class FireStoreService{
   }
 
 
-  Future CollectorProfileCreate(String full_name,String email,String phone_number) 
+  Future CollectorProfileCreate(String full_name,String email,String phone_number,String UserId) 
   async{
     try{
         await firestore.collection('Collectors_profile').add({
           "full_name":full_name,
           "email":email,
           "phone_number":phone_number,
-          // "UserId":UserId,
+          "UserId":UserId,
 
         });
     }catch(e){
 
     }
   }
+
+      Future updateCollectorProfile(String full_name,String email,String phone_number,String docId) 
+  async{
+    try{
+        await firestore.collection('Collectors_profile').doc(docId).update({
+          "full_name":full_name,
+          "email":email,
+          "phone_number":phone_number,
+          "date":DateTime.now(),
+          "docId":docId
+
+        });
+    }catch(e){
+
+    }
+  }
+
 
 
 Future addCollectionDetail(String number_of_receiver,String number_of_hive,String type_of_honey,String farmer_detail,

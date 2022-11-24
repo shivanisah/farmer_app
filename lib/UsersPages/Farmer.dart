@@ -12,8 +12,8 @@ import '../FarmerPages/Profile.dart';
 class Farmer extends StatefulWidget {
     // User? user =  FirebaseAuth.instance.currentUser;
 
-    User user;
-    Farmer(this.user);
+    // User user;
+    // Farmer(this.user);
   @override
   State<Farmer> createState() => _FarmerState();
 }
@@ -49,26 +49,26 @@ class _FarmerState extends State<Farmer> {
               leading:Icon(Icons.home,color:Colors.blue),
               trailing:Icon(Icons.arrow_forward),
               onTap:()=>  Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) =>Farmer(widget.user)
+                MaterialPageRoute(builder: (context) =>Farmer()
                 )
               )
             ),
 
+            // ListTile(
+            //   title:Text('Profile',style:TextStyle(color:Colors.black,fontSize:16 )),
+            //   leading:Icon(Icons.person_add_alt_1_rounded,color:Colors.blue),
+            //   trailing:Icon(Icons.arrow_forward),
+            //   onTap:()=>  Navigator.pushReplacement(context,
+            //     MaterialPageRoute(builder: (context) => Profile()
+            //     )
+            //   )
+            // ),
             ListTile(
-              title:Text('Create Profile',style:TextStyle(color:Colors.black,fontSize:16 )),
-              leading:Icon(Icons.person_add_alt_1_rounded,color:Colors.blue),
-              trailing:Icon(Icons.arrow_forward),
-              onTap:()=>  Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => Profile(widget.user)
-                )
-              )
-            ),
-            ListTile(
-              title:Text('View Profile',style:TextStyle(color:Colors.black,fontSize:16 )),
+              title:Text('Profile',style:TextStyle(color:Colors.black,fontSize:16 )),
               leading:Icon(Icons.person_rounded,color:Colors.blue),
               trailing:Icon(Icons.arrow_forward),
                 onTap:()=>  Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) =>ViewProfile(widget.user)
+                MaterialPageRoute(builder: (context) =>ViewProfile()
                 )
               )
             ),

@@ -1,6 +1,9 @@
 import 'dart:async';
 
+import 'package:agriculture/AdminPages/CollectorMainPage.dart';
+import 'package:agriculture/AdminPages/FarmerMainPage.dart';
 import 'package:agriculture/FarmerPages/drawer.dart';
+import 'package:agriculture/UsersPages/Admin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 
@@ -13,8 +16,8 @@ import '../services/firestore_service.dart';
 import 'ViewProfile.dart';
 
 class Profile extends StatefulWidget {
-  User user ;
-  Profile(this.user);
+  // User user ;
+  // Profile(this.user);
   @override
   State<Profile> createState() => _ProfileState();
 }
@@ -46,16 +49,20 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+      final  farmer_id = ModalRoute.of(context)!.settings.arguments as String;
+
     final color = Colors.blue;
     // final profil = ViewProfile(widget.user);
     return Scaffold(
-      drawer:Drawer(
+            drawer:
+      Drawer(
         // width:250,
         backgroundColor:Color.fromARGB(253, 243, 242, 247),
         child:ListView(
           children: [
             UserAccountsDrawerHeader(
-              accountName: Text("Hello"), accountEmail: Text(MyEmail),
+              
+              accountName: Text("Hello"), accountEmail: Text("MyEmail"),
             currentAccountPicture:CircleAvatar(backgroundColor:Colors.white,
             backgroundImage:AssetImage('images/agri.jpg'))
             ),
@@ -64,26 +71,26 @@ class _ProfileState extends State<Profile> {
               leading:Icon(Icons.home,color:Colors.blue),
               trailing:Icon(Icons.arrow_forward),
               onTap:()=>  Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) =>Farmer(widget.user)
+                MaterialPageRoute(builder: (context) =>Admin()
                 )
               )
             ),
 
             ListTile(
-              title:Text('Create Profile',style:TextStyle(color:Colors.black,fontSize:16 )),
+              title:Text('Collectors List',style:TextStyle(color:Colors.black,fontSize:16 )),
               leading:Icon(Icons.person_add_alt_1_rounded,color:Colors.blue),
               trailing:Icon(Icons.arrow_forward),
               onTap:()=>  Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => Profile(widget.user)
+                MaterialPageRoute(builder: (context) => CollectorList()
                 )
               )
             ),
             ListTile(
-              title:Text('View Profile',style:TextStyle(color:Colors.black,fontSize:16 )),
+              title:Text('Farmers List',style:TextStyle(color:Colors.black,fontSize:16 )),
               leading:Icon(Icons.person_rounded,color:Colors.blue),
               trailing:Icon(Icons.arrow_forward),
                 onTap:()=>  Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) =>ViewProfile(widget.user)
+                MaterialPageRoute(builder: (context) =>FarmerList()
                 )
               )
             ),
@@ -110,7 +117,7 @@ class _ProfileState extends State<Profile> {
 //                           ),
 //                         )
 // ,),
-        title:Text("Farmer")
+        title:Text("Admin")
       ),
       body:
       SingleChildScrollView(
@@ -392,14 +399,14 @@ class _ProfileState extends State<Profile> {
                        
                         await FireStoreService().createProfile(nameController.text,emailController.text,phoneController.text,additionalNumberController.text,permanentAddController.text,
                         temporaryAddController.text,latLong_locationController.text,capacityController.text,possibleMigController.text,noBeehiveController.text,
-                        widget.user.uid);
+                        farmer_id);
                         setState(() {
                           loading=false;
                         });
                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Profile created successfully"),backgroundColor:Colors.green));
 
                         Timer(Duration(seconds: 2),(){
-                   Navigator.push(context,MaterialPageRoute(builder:(context)=>ViewProfile(widget.user)));
+                   Navigator.push(context,MaterialPageRoute(builder:(context)=>Admin()));
 
                         });
   

@@ -1,3 +1,4 @@
+import 'package:agriculture/CollectorPages/CollectorProfileView.dart';
 import 'package:agriculture/CollectorPages/Profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -50,11 +51,11 @@ class _SideBarState extends State<SideBar> {
             ),
 
             ListTile(
-              title:Text('Create Profile',style:TextStyle(color:Colors.black,fontSize:16 )),
+              title:Text('Profile',style:TextStyle(color:Colors.black,fontSize:16 )),
               leading:Icon(Icons.person_add_alt_1_rounded,color:Colors.blue),
               trailing:Icon(Icons.arrow_forward),
               onTap:()=>  Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => CollectorProfile()
+                MaterialPageRoute(builder: (context) => CollectorViewProfile()
                 )
               )
             ),

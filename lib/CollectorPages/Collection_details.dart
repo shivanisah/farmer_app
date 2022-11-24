@@ -110,33 +110,35 @@ class _CollectionDetailPageState extends State<CollectionDetailPage> {
                   ),
 
               SizedBox(height:20),
-                              DropdownButtonFormField<String>(
-                                decoration:InputDecoration(
-                                  labelText:"Select honey type",
-                                  labelStyle:TextStyle(fontSize:20)
+                              DropdownButtonHideUnderline (
+                                child: DropdownButtonFormField<String>(
+                                  decoration:InputDecoration(
+                                    labelText:"Select honey type",
+                                    labelStyle:TextStyle(fontSize:20)
+                                  ),
+                              
+                                  // dropdownColor: Colors.blue[900],
+                                  // isDense: true,
+                                  // isExpanded: false,
+                                  // iconEnabledColor: Colors.white,
+                                  // focusColor: Colors.white,
+                                  items: option.map((String dropDownItem) {
+                                    return DropdownMenuItem<String>(
+                              
+                                      value: dropDownItem,
+                                      child: Text(
+                                        dropDownItem,
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (newValueSelect) {
+                                    setState(() {
+                                      currentItemSelected = newValueSelect!;
+                                      type_of_honey = newValueSelect;
+                                    });
+                                  },
+                                  value: currentItemSelected,
                                 ),
-
-                                // dropdownColor: Colors.blue[900],
-                                // isDense: true,
-                                // isExpanded: false,
-                                // iconEnabledColor: Colors.white,
-                                // focusColor: Colors.white,
-                                items: option.map((String dropDownItem) {
-                                  return DropdownMenuItem<String>(
-
-                                    value: dropDownItem,
-                                    child: Text(
-                                      dropDownItem,
-                                    ),
-                                  );
-                                }).toList(),
-                                onChanged: (newValueSelect) {
-                                  setState(() {
-                                    currentItemSelected = newValueSelect!;
-                                    type_of_honey = newValueSelect;
-                                  });
-                                },
-                                value: currentItemSelected,
                               ),
         SizedBox(height:20),
                     TextFormField(

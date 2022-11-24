@@ -39,7 +39,7 @@ class _FarmerMenuState extends State<FarmerMenu> {
               title:Text('Home',style:TextStyle(color:Colors.black,fontSize:20 )),
               leading:Icon(Icons.person),
               onTap:()=>  Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) =>Farmer(widget.user)
+                MaterialPageRoute(builder: (context) =>Farmer()
                 )
               )
             ),
@@ -56,7 +56,7 @@ class _FarmerMenuState extends State<FarmerMenu> {
               title:Text('ViewProfile',style:TextStyle(color:Colors.black,fontSize:20 )),
               leading:Icon(Icons.person),
               onTap:()=>  Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) =>ViewProfile(widget.user)
+                MaterialPageRoute(builder: (context) =>ViewProfile()
                 )
               )
             ),

@@ -1,52 +1,36 @@
+import 'package:agriculture/CollectorPages/EditCollectorProfile.dart';
+import 'package:agriculture/CollectorPages/Farmers_detail.dart';
 import 'package:agriculture/FarmerPages/EditProfile.dart';
 import 'package:agriculture/login.dart';
+import 'package:agriculture/models/CollectorProfile.dart';
 import 'package:agriculture/models/Farmer_profile.dart';
 import 'package:agriculture/shared_preferences/user_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../UsersPages/Collector.dart';
 import '../UsersPages/Farmer.dart';
 import '../services/firestore_service.dart';
 
 import '../FarmerPages/Profile.dart';
 
 
-class ViewProfile extends StatefulWidget {
-    // User? user =  FirebaseAuth.instance.currentUser;
+class CollectorViewProfile extends StatefulWidget {
 
-    // User user;
-    
-    // ViewProfile(this.user);
   @override
-  State<ViewProfile> createState() => _ViewProfileState();
+  State<CollectorViewProfile> createState() => _CollectorViewProfileState();
 }
 
-class _ViewProfileState extends State<ViewProfile> {
+class _CollectorViewProfileState extends State<CollectorViewProfile> {
 //  bool profile_created =false;
- bool _profile = false;
+//  bool _profile = false;
 
 // get profilecreated =>profile_created;
 String MyEmail = "";
-var uid="";
-  @override
-  // getid()async{
-  //   SharedPreferences pref = await SharedPreferences.getInstance();
-  //   pref.getString('profile_id');
-  //   print('>>.???????????????<<<<<<<');
-  //   pref.remove('profile_id');
-  //   print(pref.getString('profile_id'));
-  //   if(pref.getString('profile_id')!=null){
-  //     
-
-  // }
-  // }
+var Uid="";
   @override
   void initState(){
-    
-
-
-    // getid();
 
     farmer_profile();
 
@@ -55,6 +39,8 @@ var uid="";
 
   @override
   Widget build(BuildContext context) {
+    // final  Collector_id = ModalRoute.of(context)!.settings.arguments;
+
 
     return Scaffold(
             drawer:Drawer(
@@ -72,7 +58,7 @@ var uid="";
               leading:Icon(Icons.home,color:Colors.blue),
               trailing:Icon(Icons.arrow_forward),
               onTap:()=>  Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) =>Farmer()
+                MaterialPageRoute(builder: (context) =>Collector()
                 )
               )
             ),
@@ -82,7 +68,7 @@ var uid="";
             //   leading:Icon(Icons.person_add_alt_1_rounded,color:Colors.blue),
             //   trailing:Icon(Icons.arrow_forward),
             //   onTap:()=>  Navigator.pushReplacement(context,
-            //     MaterialPageRoute(builder: (context) => Profile()
+            //     MaterialPageRoute(builder: (context) => Profile(widget.user)
             //     )
             //   )
             // ),
@@ -91,10 +77,20 @@ var uid="";
               leading:Icon(Icons.person_rounded,color:Colors.blue),
               trailing:Icon(Icons.arrow_forward),
                 onTap:()=>  Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) =>ViewProfile()
+                MaterialPageRoute(builder: (context) =>CollectorViewProfile(),
                 )
               )
             ),
+                        ListTile(
+              title:Text('Collections',style:TextStyle(color:Colors.black,fontSize:16 )),
+              leading:Icon(Icons.person_rounded,color:Colors.blue),
+              trailing:Icon(Icons.arrow_forward),
+                onTap:()=>  Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) =>Farmers_Detail(),
+                )
+              )
+            ),
+
             ListTile(
               title:Text('Log Out',style:TextStyle(color:Colors.black,fontSize:16 )),
               leading:Icon(Icons.logout_rounded,color:Colors.blue),
@@ -122,7 +118,7 @@ var uid="";
       body: 
       
       StreamBuilder(
-                  stream:FirebaseFirestore.instance.collection('Farmers_profile').where('userId',isEqualTo:uid).snapshots(),
+                  stream:FirebaseFirestore.instance.collection('Collectors_profile').where('UserId',isEqualTo:Uid).snapshots(),
                   builder:(context,AsyncSnapshot snapshot){
                     if(snapshot.hasData){
                       
@@ -131,9 +127,9 @@ var uid="";
                           return ListView.builder(
                             itemCount: snapshot.data.docs.length,
                             itemBuilder:(context,index){
-                              profileModel profile = profileModel.fromJson(snapshot.data.docs[index]);
+                            Collector_profile_model  profile = Collector_profile_model.frommJson(snapshot.data.docs[index]);
                               // print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-                              // print(profile.id);
+                              // print(profile.full_name);
                               // final pref =UserPreferences().getUserProfile(profile.id);
                              
                               
@@ -161,7 +157,9 @@ var uid="";
                 SizedBox(height:20),
                 Center(child:ElevatedButton(onPressed:(){
                 Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => EditFarmerProfile(profile)
+                MaterialPageRoute(builder: (context) => EditCollectorProfile(profile),
+                // settings: RouteSettings(arguments:profile),
+
                 )
                 );
               },
@@ -183,14 +181,14 @@ var uid="";
                               
                                 Text("Not created profile"),
                                                 SizedBox(height:20),
-                ElevatedButton(onPressed:(){
-                Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => Profile())
-                );
-                },
-                                child:Text("Create Profile"),
+                // ElevatedButton(onPressed:(){
+                // Navigator.pushReplacement(context,
+                // MaterialPageRoute(builder: (context) => Profile(widget.user))
+                // );
+                // },
+                //                 child:Text("Create Profile"),
 
-                              ),
+                //               ),
                             ],
                           ),
                         );
@@ -206,34 +204,18 @@ var uid="";
               
 
   }
-  Widget ProfileWidget(profileModel profile)=>Column(
+  Widget ProfileWidget(Collector_profile_model profile)=>Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-    Text("Full name:  "+profile.name,style:TextStyle(
+    Text("Full name:  "+profile.full_name,style:TextStyle(
       fontWeight:FontWeight.bold,fontSize:15
     )),
     SizedBox(height:10),
-        Text("Email:  "+profile.Email,style:TextStyle(
+        Text("Email:  "+profile.email,style:TextStyle(
       fontWeight:FontWeight.bold,fontSize:15
     )),
         SizedBox(height:10),
         Text("Contact number:  "+profile.phone_number,style:TextStyle(
-      fontWeight:FontWeight.bold,fontSize:15
-    )),
-        SizedBox(height:10),
-        Text("Permanent address:  "+profile.permanent_address,style:TextStyle(
-      fontWeight:FontWeight.bold,fontSize:15
-    )),
-        SizedBox(height:10),
-        Text("Temporary address:  "+profile.temporary_address,style:TextStyle(
-      fontWeight:FontWeight.bold,fontSize:15
-    )),
-        SizedBox(height:10),
-        Text("Quantity of production:  "+profile.capacity_of_production,style:TextStyle(
-      fontWeight:FontWeight.bold,fontSize:15
-    )),
-        SizedBox(height:10),
-        Text("Possible migration location:  "+profile.migration_location,style:TextStyle(
       fontWeight:FontWeight.bold,fontSize:15
     )),
 
@@ -246,14 +228,16 @@ var uid="";
             then((DocumentSnapshot documentSnapshot){
                           if(documentSnapshot.exists){
                          var myEmail=documentSnapshot.get("email");
-                         var Uid = documentSnapshot.id;
+                         var uid = documentSnapshot.id;
+                         
                               setState(() {
                               MyEmail= myEmail;
-                              uid=Uid;
+                              Uid =uid;
                             });
 
                             print(".........................................");
                             print(MyEmail);
+                            print(Uid);
                                                 }
                                                 }
                                            
