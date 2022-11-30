@@ -56,7 +56,7 @@ class FireStoreService{
   }
 
 
-  Future CollectorProfileCreate(String full_name,String email,String phone_number,String UserId) 
+  Future CollectorProfileCreate(String full_name,String email,String phone_number,String UserId,String imageUrl) 
   async{
     try{
         await firestore.collection('Collectors_profile').add({
@@ -64,6 +64,7 @@ class FireStoreService{
           "email":email,
           "phone_number":phone_number,
           "UserId":UserId,
+          "imageUrl":imageUrl,
 
         });
     }catch(e){

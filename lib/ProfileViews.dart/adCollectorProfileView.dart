@@ -40,7 +40,7 @@ var Uid="";
   @override
   Widget build(BuildContext context) {
     // final  Collector_id = ModalRoute.of(context)!.settings.arguments;
-  
+
 
     return Scaffold(
             drawer:Drawer(
@@ -128,16 +128,12 @@ var Uid="";
                             itemCount: snapshot.data.docs.length,
                             itemBuilder:(context,index){
                             Collector_profile_model  profile = Collector_profile_model.frommJson(snapshot.data.docs[index]);
-                              // print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-                              // print(profile.full_name);
                               // final pref =UserPreferences().getUserProfile(profile.id);
-                             
-                              
-                              // print(pref);
-                              // if(profile.id!=null){
+                                                          
+                             if(profile.id!=null){
                                 
-                              //     _profile=true;
-                                
+                                  // _profile=true;
+                              } 
                               
                               // }
                               return  Column(
@@ -152,33 +148,6 @@ var Uid="";
                         //   ),
                         // ),
                 const SizedBox(height:24),
-                                                      Stack(
-                      
-                      children: [
-                        Text("hdsfkjher"),
-                        // buildImage(),
-                      //   ClipOval(
-                      //     child:_image!=null?Image.file(_image,fit:BoxFit.cover,
-                      //   width:128,
-                      //   height:128,) :
-                          
-
-                      //   Image.asset('images/agri.jpg',                                     
-                      //    fit:BoxFit.cover,
-                      //   width:128,
-                      //   height:128,
-                      // ),
-
-                      //   ),
-                        Positioned(
-                          bottom:0,
-                          right:4,
-                          child: buildEditIcon(Colors.blue)
-                          ),
-                        ]
-                        ),
-    
-
                 ProfileWidget(profile),
                         
                 SizedBox(height:20),
@@ -281,43 +250,6 @@ var Uid="";
       ),
     );
   }
-Widget buildEditIcon(Color color)=>
-      buildCircle(
-        color:Colors.white,
-        all:3,
-        child: InkWell(
-          onTap:()=>{
-            //  _pickImageCamera(),
-          },
-          child: buildCircle(
-            color:color,
-            all:8,
-            child: Icon(
-              Icons.edit,
-        
-              size:20,
-              color:Colors.white,
-            
-            ),
-                      
-        
-          ),
-        ),
-      );
-
-
- Widget buildCircle({
-  required Widget child,
-  required double all,
-  required Color color,
- })=>ClipOval(
-   child: Container(
-    color:color,
-    child:child,
-    padding:EdgeInsets.all(all),
-    
-    ),
- );     
 
  
 

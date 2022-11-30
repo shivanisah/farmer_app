@@ -23,4 +23,20 @@ CollectionDetails({
   required this.userId, 
   required this.date,
 });
+
+   factory CollectionDetails.fromJson(DocumentSnapshot  snapshot){
+    return CollectionDetails(
+        number_of_receiver:snapshot['number_of_receiver'],
+        // imagePath:snapshot['imagePath'],
+        number_of_hive:snapshot['number_of_hive'],
+        collected_location:snapshot['collected_location'],
+        moisture_report:snapshot['moisture_report'],
+        follow_of_status:snapshot['follow_of_status'],
+        type_of_honey       :snapshot['type_of_honey'],
+        farmer_detail :snapshot['farmer_detail'],
+        date:snapshot['date'],
+        userId:snapshot['userId'],
+    );
+   }
+
 }

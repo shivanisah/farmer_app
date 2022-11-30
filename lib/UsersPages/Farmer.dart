@@ -3,6 +3,7 @@ import 'package:agriculture/models/Farmer_profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../FarmerPages/ViewProfile.dart';
 import '../services/firestore_service.dart';
 
@@ -114,6 +115,10 @@ class _FarmerState extends State<Farmer> {
   Future<void> logout(BuildContext context) async {
     CircularProgressIndicator();
     await FirebaseAuth.instance.signOut();
+        SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.remove('email');
+    pref.remove('farmer');
+
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(

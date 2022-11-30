@@ -6,6 +6,7 @@ class Collector_profile_model{
   String email;
   String phone_number;
   String UserId;
+  String imageUrl;
 
 
 Collector_profile_model({
@@ -14,6 +15,7 @@ Collector_profile_model({
   required this.phone_number,
   required this.UserId, 
   required this.id, 
+  required this.imageUrl,
 });
 
 
@@ -25,6 +27,7 @@ Collector_profile_model({
         phone_number:snapshot['phone_number'],
         email:snapshot['email'],
         UserId: snapshot['UserId'],
+        imageUrl:snapshot['imageUrl']
     );
    }
 

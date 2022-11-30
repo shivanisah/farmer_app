@@ -460,7 +460,8 @@ class _ProfileState extends State<Profile> {
   }
 Widget buildImage(){
   final image = AssetImage('images/agri.jpg');
-  return ClipOval(
+  return 
+  ClipOval(
     child: Material(
       color:Colors.transparent,
       child: Ink.image(

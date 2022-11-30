@@ -12,9 +12,8 @@ import 'package:agriculture/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../Widgets/design1.dart';
-import '../Widgets/design2.dart';
 
 
 class Admin extends StatefulWidget {
@@ -58,15 +57,6 @@ class _AdminState extends State<Admin> {
               trailing:Icon(Icons.arrow_forward),
               onTap:()=>  Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) =>Admin()
-                )
-              )
-            ),
-          ListTile(
-              title:Text('Design',style:TextStyle(color:Colors.black,fontSize:16 )),
-              leading:Icon(Icons.home,color:Colors.blue),
-              trailing:Icon(Icons.arrow_forward),
-              onTap:()=>  Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) =>Home()
                 )
               )
             ),
@@ -126,6 +116,7 @@ class _AdminState extends State<Admin> {
       ),
 
       appBar: AppBar(
+        // backgroundColor: Color(0xD2A10C),
         title: Text("Admin"),
         actions: [
           IconButton(
@@ -343,6 +334,9 @@ class _AdminState extends State<Admin> {
   Future<void> logout(BuildContext context) async {
     CircularProgressIndicator();
     await FirebaseAuth.instance.signOut();
+        SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.remove('email');
+
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(

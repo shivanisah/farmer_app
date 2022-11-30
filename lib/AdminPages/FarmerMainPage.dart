@@ -25,6 +25,7 @@ class _FarmerListState extends State<FarmerList> {
    }
   @override
   Widget build(BuildContext context) {
+    Size size =MediaQuery.of(context).size;
 
     return Scaffold(
                   drawer:
@@ -36,7 +37,8 @@ class _FarmerListState extends State<FarmerList> {
             UserAccountsDrawerHeader(
               
               accountName: Text("Hello"), accountEmail: Text("MyEmail"),
-            currentAccountPicture:CircleAvatar(backgroundColor:Colors.white,
+            currentAccountPicture:
+            CircleAvatar(backgroundColor:Colors.white,
             backgroundImage:AssetImage('images/agri.jpg'))
             ),
              ListTile(
@@ -82,7 +84,7 @@ class _FarmerListState extends State<FarmerList> {
       ),
 
       appBar: AppBar(
-        title: Text("Admin"),
+        title: Text("Farmers"),
         actions: [
           IconButton(
             onPressed: () {
@@ -96,10 +98,14 @@ class _FarmerListState extends State<FarmerList> {
       ),
       body:
       Container(
-        child: StreamBuilder(
+        padding:EdgeInsets.only(top: 20,right:10),
+
+        child: 
+        StreamBuilder(
         stream:FirebaseFirestore.instance.collection('users').where('role',isEqualTo:"Farmer").snapshots(),
 
-        builder:(BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot){
+        builder:(BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot)
+        {
           if(snapshot.hasData){
             if(snapshot.data!.docs.length>0){
           return ListView.builder(
@@ -107,26 +113,120 @@ class _FarmerListState extends State<FarmerList> {
             itemBuilder: (context,index){
               var farmerId = snapshot.data!.docs[index];
               // print(farmerId.id);
-              return Column(
-                children: [
-                  ListTile(title: Text("Farmers    "+farmerId.get('email')),
-                  trailing: TextButton(onPressed:(){
+              return                Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Padding(
+              //          padding: const EdgeInsets.only(left:18.0),
+              //        ),
+              SizedBox(height: 2,),
+              Padding(
+                padding: const EdgeInsets.only(left:18.0,top:7,right: 4),
+                child: Column(
+                  children: [
+                    GestureDetector(
+                      
+                      onTap:(){
                       Navigator.push(context,
                       MaterialPageRoute(
                       builder: (context) => Profile(),
                       settings: RouteSettings(arguments:farmerId.id ),
+                      // settings: RouteSettings(arguments:collectorId[index] ),
+
 
                       )
                       );
-                  }, 
-                  child:Text("Profile"),
-                  ),
 
-                  ),
-                                    // getCollectorId(),
 
-                ],
-              );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 15),
+                        height: 62,
+                      
+                        decoration: BoxDecoration(
+                          
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                               boxShadow: [
+                                          BoxShadow(
+                                            offset: Offset(0,7),
+                                            blurRadius: 10,
+                                            color:Colors.black.withOpacity(0.3),
+                            
+                                          )
+                                        ]
+
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+            CircleAvatar(backgroundColor:Colors.white,
+            backgroundImage:AssetImage('images/agri.jpg'),),
+
+                              
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 12),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                          Text(farmerId.get('email'),
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 12,
+                                              color:   Colors.black.withOpacity(0.8)
+                                            ),
+                                          ),
+                                          // Text('',
+                                          //   style: TextStyle(
+                                          //     fontWeight: FontWeight.w500,
+                                          //     fontSize: 13,
+                                          //     color: Colors.black.withOpacity(0.4),
+                                          //   ),
+                                          // ),
+                                      
+                                      ],
+                                    ),
+                                  ),
+                                                                SizedBox(width: size.width*0.13,),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                      
+                                    Text('Profile',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 13,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                
+                                ],
+                              )
+
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+
+
+            ],
+          );
 
             }
             
@@ -135,10 +235,10 @@ class _FarmerListState extends State<FarmerList> {
             }
    
           }else{
-            return Text("Something is wrong");
+            return Text("");
           }
 
-            return Text("vj");
+            return Text("");
         }
 
 

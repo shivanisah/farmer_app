@@ -68,6 +68,7 @@ class _SideBarState extends State<SideBar> {
                 )
               )
             ),
+
             ListTile(
               title:Text('Log Out',style:TextStyle(color:Colors.black,fontSize:16 )),
               leading:Icon(Icons.logout_rounded,color:Colors.blue),
@@ -76,6 +77,8 @@ class _SideBarState extends State<SideBar> {
 
 
             ),
+
+
 
 
           ],

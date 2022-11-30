@@ -1,19 +1,23 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:agriculture/AdminPages/CollectorMainPage.dart';
 import 'package:agriculture/CollectorPages/CollectorProfileView.dart';
 import 'package:agriculture/CollectorPages/drawer.dart';
 import 'package:agriculture/FarmerPages/drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import "package:flutter/material.dart";
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../AdminPages/FarmerMainPage.dart';
 import '../UsersPages/Admin.dart';
 import '../UsersPages/Collector.dart';
 import '../UsersPages/Farmer.dart';
+import '../Widgets/designcolor.dart';
 import '../login.dart';
 import '../services/firestore_service.dart';
 
@@ -32,6 +36,25 @@ class _CollectorProfileState extends State<CollectorProfile> {
 
   bool loading = false;
   final formkey = GlobalKey<FormState>();
+  var url;
+//  late File image = File('your initial file');
+  var _image;
+  final picker = ImagePicker();
+Future _pickImageCamera() async {
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+    final pickedImageFile = File(pickedImage!.path);
+    setState(() {
+      _image = pickedImageFile;
+    });
+  }
+
+  Future uploadImage(var _image) async{
+    Reference reference = FirebaseStorage.instance.ref().child('images').child(emailController.text+'.jpg');
+    await reference.putFile(_image);
+    url = await reference.getDownloadURL();
+    return url;
+  }
+
  @override
   void initState(){
     emailController.text=MyEmail;
@@ -43,7 +66,12 @@ class _CollectorProfileState extends State<CollectorProfile> {
 
   @override
   Widget build(BuildContext context) {
+            final color = Colors.blue;
+
+
             final  Collector_id = ModalRoute.of(context)!.settings.arguments as String;
+            // print("********************************************");
+            // print(Collector_id)
 
     return Scaffold(
                   drawer:
@@ -54,7 +82,7 @@ class _CollectorProfileState extends State<CollectorProfile> {
           children: [
             UserAccountsDrawerHeader(
               
-              accountName: Text("Hello"), accountEmail: Text("MyEmail"),
+              accountName: Text("Hello"), accountEmail: Text(MyEmail),
             currentAccountPicture:CircleAvatar(backgroundColor:Colors.white,
             backgroundImage:AssetImage('images/agri.jpg'))
             ),
@@ -108,6 +136,40 @@ class _CollectorProfileState extends State<CollectorProfile> {
         child:Padding(
           padding: const EdgeInsets.all(20),
           child: Column(children: [
+
+                         Text( Collector_id,
+                         style: TextStyle(color: Palette.lightPurple,fontSize: 
+                                    19,fontWeight: FontWeight.bold),),
+                                    SizedBox(height: 17,),
+
+                                      Stack(
+                      
+                      children: [
+                        // buildImage(),
+                        ClipOval(
+                          // clipper: ,
+                          child:_image!=null?Image.file(_image,fit:BoxFit.cover,
+                        width:128,
+                        height:128,
+                        ) :
+                          
+
+                        Image.asset('images/agri.jpg',                                     
+                         fit:BoxFit.cover,
+                        width:128,
+                        height:128,
+                      ),
+
+                        ),
+                        Positioned(
+                          bottom:0,
+                          right:4,
+                          child: buildEditIcon(color)
+                          ),
+                        ]
+                        ),
+    
+
             Container(
               
               child:Form(
@@ -117,20 +179,13 @@ class _CollectorProfileState extends State<CollectorProfile> {
                   // mainAxisAlignment:MainAxisAlignment.start,
                   crossAxisAlignment:CrossAxisAlignment.center,
                   children: [
-                    SizedBox(height:10),
-                  Text(
-                    Collector_id,
-                    style:TextStyle(
-                      fontSize:20,
-                      fontWeight:FontWeight.bold,
-                    )
-                    ),
-                    SizedBox(height:20),
+                   SizedBox(height:10),
+
                   TextFormField(
                     controller:nameController,
                     decoration:InputDecoration(
                     labelText:"Full Name",
-                      icon: Icon(Icons.person)
+                      icon: Icon(Icons.person,color:Colors.blue)
 
                     ),
                     validator:(value){
@@ -152,10 +207,9 @@ class _CollectorProfileState extends State<CollectorProfile> {
                     controller:emailController,
                     decoration:InputDecoration(
                     labelText:"Email",
-                      // hintText:Farmer_email,
                     // enabled:false,
 
-                      icon: Icon(Icons.email)
+                      icon: Icon(Icons.email,color: Colors.blue,)
 
                     ),
                   validator:(value){
@@ -184,7 +238,7 @@ class _CollectorProfileState extends State<CollectorProfile> {
     decoration: InputDecoration(
         labelText:"Phone number", 
         // hintText: "Enter your phone number",
-        icon: Icon(Icons.phone_android_outlined)
+        icon: Icon(Icons.phone_android_outlined,color: Colors.blue)
     ),
                         validator:(value){
                       if(value!.isEmpty){
@@ -212,9 +266,11 @@ class _CollectorProfileState extends State<CollectorProfile> {
                         try{
                           setState(() {
                           loading:true;
-                        });
-                       
-                        await FireStoreService().CollectorProfileCreate(nameController.text,emailController.text,phoneController.text,Collector_id);
+                        });                     
+                                         final imgUrl = await uploadImage(_image);
+
+                        await FireStoreService().CollectorProfileCreate(nameController.text,emailController.text,phoneController.text,Collector_id,imgUrl);
+
                         setState(() {
                           loading=false;
                         });
@@ -295,6 +351,46 @@ class _CollectorProfileState extends State<CollectorProfile> {
       ),
     );
   }
+
+
+Widget buildEditIcon(Color color)=>
+      buildCircle(
+        color:Colors.white,
+        all:3,
+        child: InkWell(
+          onTap:()=>{
+             _pickImageCamera(),
+          },
+          child: buildCircle(
+            color:color,
+            all:8,
+            child: Icon(
+              Icons.add_a_photo,
+        
+              size:20,
+              color:Colors.white,
+            
+            ),
+                      
+        
+          ),
+        ),
+      );
+
+
+ Widget buildCircle({
+  required Widget child,
+  required double all,
+  required Color color,
+ })=>ClipOval(
+   child: Container(
+    color:color,
+    child:child,
+    padding:EdgeInsets.all(all),
+    
+    ),
+ );     
+
 
 
 }

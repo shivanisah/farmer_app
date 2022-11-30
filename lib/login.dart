@@ -1,6 +1,8 @@
+import 'package:agriculture/shared_preferences/user_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'UsersPages/Admin.dart';
 import 'UsersPages/Collector.dart';
 import 'UsersPages/Farmer.dart';
@@ -247,6 +249,9 @@ Container(color:Colors.black.withOpacity(0.50)),
         FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email,
            password: password);
+           
+       final _pref = updateSharedPrefernces(email); 
+           
     route();  
 
       }on FirebaseAuthException catch (e){
@@ -259,15 +264,19 @@ Container(color:Colors.black.withOpacity(0.50)),
 
 void route(){
 User? user =  FirebaseAuth.instance.currentUser;
+
 var data=  FirebaseFirestore.instance.collection('users').doc(user!.uid).get().
             then((DocumentSnapshot documentSnapshot){
                           if(documentSnapshot.exists){
                             if(documentSnapshot.get("role")=="collector"){
+                              final _pref = checkSharedPrefernces(true); 
                                     Navigator.pushReplacement(
                                       context,MaterialPageRoute(builder:(context)=>Collector()),
                                     );
                             }
                                 else if(documentSnapshot.get("role")=="Farmer"){
+                              final _pref = checkSharedPrefernces(false); 
+
                                     Navigator.pushReplacement(
                                       context,MaterialPageRoute(builder:(context)=>Farmer()),
                                     );
