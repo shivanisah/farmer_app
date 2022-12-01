@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 
 class FireStoreService{
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -103,7 +104,7 @@ Future addCollectionDetail(String number_of_receiver,String number_of_hive,Strin
             "moisture_report":moisture_report,
             "follow_of_status":follow_of_status,
             "userId":userId,
-            "date":DateTime.now(),
+            "date":DateFormat.yMMMEd().format(DateTime.now())+ DateFormat.jm().format(DateTime.now()),
 
 
 

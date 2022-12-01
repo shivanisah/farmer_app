@@ -394,7 +394,7 @@ class _ProfileState extends State<Profile> {
                       {
                         try{
                                                       setState(() {
-                          loading:true;
+                          loading=true;
                         });
                        
                         await FireStoreService().createProfile(nameController.text,emailController.text,phoneController.text,additionalNumberController.text,permanentAddController.text,

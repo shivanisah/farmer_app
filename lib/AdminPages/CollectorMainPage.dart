@@ -29,6 +29,7 @@ class _CollectorListState extends State<CollectorList> {
    }
   @override
   Widget build(BuildContext context) {
+    var _profile=false;
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -106,23 +107,38 @@ class _CollectorListState extends State<CollectorList> {
           Text("Collectors Logged In Detail"),
           Container(
             padding:EdgeInsets.only(top: 20,right:10),
-            child: StreamBuilder(
+            child:
+             StreamBuilder(
             stream:FirebaseFirestore.instance.collection('users').where('role',isEqualTo:"collector").snapshots(),
 
-            builder:(BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot){
+            builder:(BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot)
+            {
               if(snapshot.hasData){
                 if(snapshot.data!.docs.length>0){
               return ListView.builder(
                 shrinkWrap: true,
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (context,index){
-                var   collectorId = snapshot.data!.docs[index];
+                var collectorId = snapshot.data!.docs[index];
+                var obj='';
+  FirebaseFirestore.instance .collection('Collectors_profile').get() .
+  then((QuerySnapshot querySnapshot) {
+        querySnapshot.docs.forEach((doc) {
+          
+        obj =     (doc["UserId"]);
+
+        });
+    });
+
+
+                  
                   // print(collectorId.id);
-                  return          
+                  return  
                    Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
                   Padding(
                            padding: const EdgeInsets.only(left:18.0),
                          ),
@@ -130,10 +146,13 @@ class _CollectorListState extends State<CollectorList> {
                   Padding(
                     padding: const EdgeInsets.only(left:18.0,top:7,right: 4),
                     child: Column(
+
                       children: [
+
                         GestureDetector(
-                          
+                        
                           onTap:(){
+                          
                           Navigator.push(context,
                           MaterialPageRoute(
                           builder: (context) => CollectorProfile(),
@@ -215,14 +234,15 @@ class _CollectorListState extends State<CollectorList> {
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                        Text('Profile',
+                                    children: [             
+                                        Text('Create',
                                           style: TextStyle(
                                             fontWeight: FontWeight.w500,
                                             fontSize: 13,
                                             color: Colors.blue,
                                           ),
                                         ),
+
                                     
                                     ],
                                   )

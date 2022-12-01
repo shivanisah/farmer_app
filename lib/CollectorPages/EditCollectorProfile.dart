@@ -237,14 +237,14 @@ class _EditCollectorProfileState extends State<EditCollectorProfile> {
 
          
 
-            loading?Center(child:CircularProgressIndicator(),):Container(
+            loading?CircularProgressIndicator():Container(
                     child: ElevatedButton(onPressed:()async{
                   if(formkey.currentState!.validate())
 
                       {
                         try{
                           setState(() {
-                          loading:true;
+                          loading=true;
                         });
                        
                         await FireStoreService().updateCollectorProfile(nameController.text,emailController.text,phoneController.text,
@@ -252,7 +252,7 @@ class _EditCollectorProfileState extends State<EditCollectorProfile> {
                         setState(() {
                           loading=false;
                         });
-                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Profile updated successfully successfully"),backgroundColor:Colors.green));
+                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Profile updated successfully "),backgroundColor:Colors.green));
 
                         Timer(Duration(seconds: 2),(){
                    Navigator.push(context,MaterialPageRoute(builder:(context)=>CollectorViewProfile()));

@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:intl/intl.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 
 import '../UsersPages/Collector.dart';
@@ -48,6 +49,8 @@ class _CollectionDetailPageState extends State<CollectionDetailPage> {
     Size size = MediaQuery.of(context).size;
 
     var time = DateTime.now();
+    String formattedDate = DateFormat.yMMMEd().format(time);
+    String formattedTime= DateFormat.jm().format(time);
     final  userId = ModalRoute.of(context)!.settings.arguments as String;
 
     return Scaffold(
@@ -209,17 +212,19 @@ style: TextStyle(color: Palette.lightPurple,fontSize:
                                       style: TextStyle(
                                           color: Colors.black.withOpacity(0.76),
                                           fontSize: 17,
-                                          fontWeight: FontWeight.normal,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                         
                                         decoration: InputDecoration(
                                           filled: true,
                                           fillColor: Colors.white,
-                                          hintText:"Date and Time: $time",
+                                          hintText:"$formattedDate $formattedTime",
+                                          
                                           enabled:false,
 
                                           hintStyle: TextStyle(
-                                            color: Colors.black.withOpacity(0.6)
+                                            color: Colors.black.withOpacity(0.6),
+                                            fontWeight: FontWeight.bold,
                                           ),
                                          
                                           
@@ -529,7 +534,7 @@ style: TextStyle(color: Palette.lightPurple,fontSize:
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("All fields are required"),backgroundColor:Colors.red));
                       }else{
                         setState(() {
-                          loading:true;
+                          loading=true;
                         });
                        
                         await FireStoreService().addCollectionDetail(numberReceiverController.text,numberHiveController.text,type_of_honey,farmerDetailController.text,collectedLocationController.text,moistureController.text,

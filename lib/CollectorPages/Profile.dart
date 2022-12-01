@@ -22,6 +22,8 @@ import '../login.dart';
 import '../services/firestore_service.dart';
 
 class CollectorProfile extends StatefulWidget {
+  // User users;
+  // CollectorProfile(this.users);
   @override
   State<CollectorProfile> createState() => _CollectorProfileState();
 }
@@ -41,10 +43,12 @@ class _CollectorProfileState extends State<CollectorProfile> {
   var _image;
   final picker = ImagePicker();
 Future _pickImageCamera() async {
+  loading=true;
     final pickedImage = await picker.pickImage(source: ImageSource.gallery);
     final pickedImageFile = File(pickedImage!.path);
     setState(() {
       _image = pickedImageFile;
+      loading=false;
     });
   }
 
@@ -258,29 +262,36 @@ Future _pickImageCamera() async {
 
 
 
-            loading?Center(child:CircularProgressIndicator(),):Container(
+      loading?CircularProgressIndicator():Container(
                     child: ElevatedButton(onPressed:()async{
+                                                setState(() {
+                          loading=true;
+                        });
+
                   if(formkey.currentState!.validate())
 
                       {
                         try{
-                          setState(() {
-                          loading:true;
-                        });                     
-                                         final imgUrl = await uploadImage(_image);
+                        String imgUrl;               
+                        if(_image!=null){
+                           imgUrl = await uploadImage(_image);
 
-                        await FireStoreService().CollectorProfileCreate(nameController.text,emailController.text,phoneController.text,Collector_id,imgUrl);
+                        }  else{
+                           imgUrl = "";
 
-                        setState(() {
+
+                        }
+            await FireStoreService().CollectorProfileCreate(nameController.text,emailController.text,phoneController.text,Collector_id,imgUrl);
+            setState(() {
                           loading=false;
                         });
+
                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Profile created successfully"),backgroundColor:Colors.green));
 
-                        Timer(Duration(seconds: 2),(){
+                      
                    Navigator.push(context,MaterialPageRoute(builder:(context)=>Admin()));
 
-                        });
-  
+                
 
                         }catch(e){}
                       }
@@ -300,7 +311,7 @@ Future _pickImageCamera() async {
     
   }
  farmer_profile() async{
-      User? user =await  FirebaseAuth.instance.currentUser;
+      User? user = await  FirebaseAuth.instance.currentUser;
        await  FirebaseFirestore.instance.collection('users').doc(user!.uid).get().
             then((DocumentSnapshot documentSnapshot){
                           if(documentSnapshot.exists){

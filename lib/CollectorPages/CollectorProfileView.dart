@@ -155,21 +155,17 @@ var Uid="";
                                                       Stack(
                       
                       children: [
-                        Text("hdsfkjher"),
                         // buildImage(),
-                      //   ClipOval(
-                      //     child:_image!=null?Image.file(_image,fit:BoxFit.cover,
-                      //   width:128,
-                      //   height:128,) :
+                        ClipOval(
+                          // clipper: ,
+                          child:Image.network(profile.imageUrl,fit:BoxFit.cover,
+                        width:128,
+                        height:128,
+                        ) 
                           
 
-                      //   Image.asset('images/agri.jpg',                                     
-                      //    fit:BoxFit.cover,
-                      //   width:128,
-                      //   height:128,
-                      // ),
 
-                      //   ),
+                        ),
                         Positioned(
                           bottom:0,
                           right:4,
@@ -177,8 +173,7 @@ var Uid="";
                           ),
                         ]
                         ),
-    
-
+  
                 ProfileWidget(profile),
                         
                 SizedBox(height:20),
