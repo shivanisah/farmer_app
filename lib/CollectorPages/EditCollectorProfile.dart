@@ -12,6 +12,9 @@ import "package:flutter/material.dart";
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../AdminPages/CollectorMainPage.dart';
+import '../AdminPages/FarmerMainPage.dart';
+import '../UsersPages/Admin.dart';
 import '../UsersPages/Farmer.dart';
 import '../login.dart';
 import '../services/firestore_service.dart';
@@ -72,39 +75,29 @@ class _EditCollectorProfileState extends State<EditCollectorProfile> {
               leading:Icon(Icons.home,color:Colors.blue),
               trailing:Icon(Icons.arrow_forward),
               onTap:()=>  Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) =>Collector()
+                MaterialPageRoute(builder: (context) =>Admin()
                 )
               )
             ),
 
-            // ListTile(
-            //   title:Text('Profile',style:TextStyle(color:Colors.black,fontSize:16 )),
-            //   leading:Icon(Icons.person_add_alt_1_rounded,color:Colors.blue),
-            //   trailing:Icon(Icons.arrow_forward),
-            //   onTap:()=>  Navigator.pushReplacement(context,
-            //     MaterialPageRoute(builder: (context) => Profile(widget.user)
-            //     )
-            //   )
-            // ),
             ListTile(
-              title:Text('Profile',style:TextStyle(color:Colors.black,fontSize:16 )),
-              leading:Icon(Icons.person_rounded,color:Colors.blue),
+              title:Text('Collectors List',style:TextStyle(color:Colors.black,fontSize:16 )),
+              leading:Icon(Icons.person_add_alt_1_rounded,color:Colors.blue),
               trailing:Icon(Icons.arrow_forward),
-                onTap:()=>  Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) =>CollectorViewProfile()
+              onTap:()=>  Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => CollectorList()
                 )
               )
             ),
-                        ListTile(
-              title:Text('Collections',style:TextStyle(color:Colors.black,fontSize:16 )),
+            ListTile(
+              title:Text('Farmers List',style:TextStyle(color:Colors.black,fontSize:16 )),
               leading:Icon(Icons.person_rounded,color:Colors.blue),
               trailing:Icon(Icons.arrow_forward),
                 onTap:()=>  Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) =>Farmers_Detail()
+                MaterialPageRoute(builder: (context) =>FarmerList()
                 )
               )
             ),
-
             ListTile(
               title:Text('Log Out',style:TextStyle(color:Colors.black,fontSize:16 )),
               leading:Icon(Icons.logout_rounded,color:Colors.blue),
@@ -140,7 +133,23 @@ class _EditCollectorProfileState extends State<EditCollectorProfile> {
                     Stack(
                       
                       children: [
-                        buildImage(),
+                              
+                        ClipOval(
+                          // clipper: ,
+                          child:widget.profile.imageUrl==''?  Image.asset('images/agri.jpg',                                     
+                         fit:BoxFit.cover,
+                        width:128,
+                        height:128,
+                      ):
+                        Image.network(widget.profile.imageUrl,fit:BoxFit.cover,
+                        width:128,
+                        height:128,
+                        ) 
+                          
+
+
+                        ),
+                              
                         Positioned(
                           bottom:0,
                           right:4,
@@ -255,8 +264,7 @@ class _EditCollectorProfileState extends State<EditCollectorProfile> {
                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Profile updated successfully "),backgroundColor:Colors.green));
 
                         Timer(Duration(seconds: 2),(){
-                   Navigator.push(context,MaterialPageRoute(builder:(context)=>CollectorViewProfile()));
-                        // print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                   Navigator.push(context,MaterialPageRoute(builder:(context)=>CollectorList()));
 
                         });
   
@@ -308,21 +316,6 @@ class _EditCollectorProfileState extends State<EditCollectorProfile> {
       ),
     );
   }
-Widget buildImage(){
-  final image = AssetImage('images/agri.jpg');
-  return ClipOval(
-    child: Material(
-      color:Colors.transparent,
-      child: Ink.image(
-        image:image,
-        fit:BoxFit.cover,
-        width:128,
-        height:128,
-        child:InkWell(onTap:()=>{})
-      ),
-    ),
-  );
-}
 
 Widget buildEditIcon(Color color)=>
       buildCircle(

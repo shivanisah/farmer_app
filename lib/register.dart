@@ -323,13 +323,33 @@ Container(color:Colors.black.withOpacity(0.50)),
     );
   }
 
- void signUp(String email, String password, String role) async {
+ void signUp(String email, String password, String role ) async {
     CircularProgressIndicator();
     if (_formkey.currentState!.validate())
      {
       
           await _auth.createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) => {postDetailsToFirestore(email, role)})
+          .then((value) {
+
+               User user = _auth.currentUser!;
+               if(role=='collector'){
+                 CollectionReference ref = FirebaseFirestore.instance.collection('Collectors');
+           ref.doc(user.uid).set({'email': emailController.text, 'role': role,'UserId':user.uid,});
+           Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LoginPage()));
+               }
+              else{
+                 CollectionReference ref = FirebaseFirestore.instance.collection('Farmers');
+           ref.doc(user.uid).set({'email': emailController.text, 'role': role,'UserId':user.uid});
+           Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LoginPage()));
+  
+              }
+
+               }
+           
+            // postDetailsToFirestore(email, role,UserId)
+            )
           .catchError((e) {ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text(e.message.toString()),backgroundColor:Colors.red));
 });
 
@@ -337,12 +357,5 @@ Container(color:Colors.black.withOpacity(0.50)),
     }
   }
 
-  postDetailsToFirestore(String email, String role) async {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    var user = _auth.currentUser;
-    CollectionReference ref = FirebaseFirestore.instance.collection('users');
-    ref.doc(user!.uid).set({'email': emailController.text, 'role': role});
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => LoginPage()));
-  }
+ 
 }

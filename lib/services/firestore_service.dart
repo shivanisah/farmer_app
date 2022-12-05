@@ -7,7 +7,7 @@ class FireStoreService{
 
   Future createProfile(String name,String email,String phone_number,String additional_number,String permanent_address,String temporary_address,
                            String lat_and_long_location,String capacity_of_production,
-  String possible_migration,String number_of_beehive,String userId) 
+  String possible_migration,String number_of_beehive,String userId,String imageUrl,String follow_up_time) 
   async{
     try{
         await firestore.collection('Farmers_profile').add({
@@ -22,7 +22,9 @@ class FireStoreService{
           "possible_migration":possible_migration,
           "number_of_beehive":number_of_beehive,
           "date":DateTime.now(),
-          "userId":userId
+          "userId":userId,
+          "imageUrl":imageUrl,
+          "follow_up_time":follow_up_time
 
         });
     }catch(e){
@@ -57,7 +59,7 @@ class FireStoreService{
   }
 
 
-  Future CollectorProfileCreate(String full_name,String email,String phone_number,String UserId,String imageUrl) 
+  Future CollectorProfileCreate(String full_name,String email,String phone_number,String UserId,String imageUrl ) 
   async{
     try{
         await firestore.collection('Collectors_profile').add({
@@ -66,6 +68,7 @@ class FireStoreService{
           "phone_number":phone_number,
           "UserId":UserId,
           "imageUrl":imageUrl,
+         
 
         });
     }catch(e){

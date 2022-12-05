@@ -156,9 +156,14 @@ var Uid="";
                       
                       children: [
                         // buildImage(),
-                        ClipOval(
+                                                ClipOval(
                           // clipper: ,
-                          child:Image.network(profile.imageUrl,fit:BoxFit.cover,
+                          child:profile.imageUrl==''?  Image.asset('images/agri.jpg',                                     
+                         fit:BoxFit.cover,
+                        width:128,
+                        height:128,
+                      ):
+                        Image.network(profile.imageUrl,fit:BoxFit.cover,
                         width:128,
                         height:128,
                         ) 
@@ -166,6 +171,7 @@ var Uid="";
 
 
                         ),
+
                         Positioned(
                           bottom:0,
                           right:4,
@@ -178,12 +184,12 @@ var Uid="";
                         
                 SizedBox(height:20),
                 Center(child:ElevatedButton(onPressed:(){
-                Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => EditCollectorProfile(profile),
-                // settings: RouteSettings(arguments:profile),
+                // Navigator.pushReplacement(context,
+                // MaterialPageRoute(builder: (context) => EditCollectorProfile(profile),
+                // // settings: RouteSettings(arguments:profile),
 
-                )
-                );
+                // )
+                // );
               },
               child:Text("Edit  Profile"),
                ) ,),
@@ -246,7 +252,7 @@ var Uid="";
  
  farmer_profile() async{
       User? user =await  FirebaseAuth.instance.currentUser;
-       await  FirebaseFirestore.instance.collection('users').doc(user!.uid).get().
+       await  FirebaseFirestore.instance.collection('Collectors').doc(user!.uid).get().
             then((DocumentSnapshot documentSnapshot){
                           if(documentSnapshot.exists){
                          var myEmail=documentSnapshot.get("email");

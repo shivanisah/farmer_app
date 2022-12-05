@@ -265,30 +265,52 @@ Container(color:Colors.black.withOpacity(0.50)),
 void route(){
 User? user =  FirebaseAuth.instance.currentUser;
 
-var data=  FirebaseFirestore.instance.collection('users').doc(user!.uid).get().
+var data=  FirebaseFirestore.instance.collection('Collectors').doc(user!.uid).get().
             then((DocumentSnapshot documentSnapshot){
                           if(documentSnapshot.exists){
-                            if(documentSnapshot.get("role")=="collector"){
+                           
                               final _pref = checkSharedPrefernces(true); 
                                     Navigator.pushReplacement(
                                       context,MaterialPageRoute(builder:(context)=>Collector()),
                                     );
-                            }
-                                else if(documentSnapshot.get("role")=="Farmer"){
-                              final _pref = checkSharedPrefernces(false); 
+                            
+                            }});
 
+var data1=  FirebaseFirestore.instance.collection('Farmers').doc(user.uid).get().
+            then((DocumentSnapshot documentSnapshot){
+                          if(documentSnapshot.exists){
+                              final _pref = checkSharedPrefernces(false); 
                                     Navigator.pushReplacement(
                                       context,MaterialPageRoute(builder:(context)=>Farmer()),
                                     );
+                            
                             }
+                            }   );  
+var data2=  FirebaseFirestore.instance.collection('users').doc(user.uid).get().
+            then((DocumentSnapshot documentSnapshot){
+                          if(documentSnapshot.exists){
+                                    Navigator.pushReplacement(
+                                      context,MaterialPageRoute(builder:(context)=>Admin()),
+                                    );
+                            
+                            }
+                            }   );                         
+
+                            //     else if(documentSnapshot.get("role")=="Farmer"){
+                            //   final _pref = checkSharedPrefernces(false); 
+
+                            //         Navigator.pushReplacement(
+                            //           context,MaterialPageRoute(builder:(context)=>Farmer()),
+                            //         );
+                            // }
 
 
-                             else{
-                                        Navigator.pushReplacement(
-                                                context,MaterialPageRoute(
-                                                builder: (context) => Admin()));}}}
+                            //  else{
+                            //             Navigator.pushReplacement(
+                            //                     context,MaterialPageRoute(
+                            //                     builder: (context) => Admin()));}
                                                 
-    );
+                                                
 
   }
 }

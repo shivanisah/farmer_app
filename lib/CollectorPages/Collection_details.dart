@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:agriculture/CollectorPages/Farmers_detail.dart';
 import 'package:agriculture/CollectorPages/drawer.dart';
 import 'package:agriculture/FarmerPages/Profile.dart';
 import 'package:agriculture/models/Farmer_profile.dart';
@@ -542,10 +543,10 @@ style: TextStyle(color: Palette.lightPurple,fontSize:
                         setState(() {
                           loading=false;
                         });
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Profile created successfully"),backgroundColor:Colors.green));
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Collection done successfully"),backgroundColor:Colors.green));
 
                         Timer(Duration(seconds: 2),(){
-                         Navigator.push(context,MaterialPageRoute(builder:(context)=>Collector()));
+                         Navigator.push(context,MaterialPageRoute(builder:(context)=>Farmers_Detail()));
 
 
                         });

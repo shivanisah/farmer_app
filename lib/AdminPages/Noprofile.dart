@@ -1,96 +1,50 @@
-// import 'dart:html';
 
-import 'package:agriculture/AdminPages/CollectorMainPage.dart';
+import 'package:agriculture/AdminPages/FarmerMainPage.dart';
+import 'package:agriculture/CollectorPages/EditCollectorProfile.dart';
 import 'package:agriculture/CollectorPages/Profile.dart';
+import 'package:agriculture/CollectorPages/drawer.dart';
 import 'package:agriculture/FarmerPages/Profile.dart';
 import 'package:agriculture/UsersPages/Admin.dart';
 import 'package:agriculture/login.dart';
-import 'package:agriculture/models/Farmer_profile.dart';
+import 'package:agriculture/models/CollectorProfile.dart';
+import 'package:agriculture/models/collection_detail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../FarmerPages/EditProfile.dart';
+import '../CollectorPages/Collection_details.dart';
+import '../shared_preferences/user_preferences.dart';
+import 'CollectorMainPage.dart';
 
 
-class FarmerList extends StatefulWidget {
-  // const FarmerList({super.key});
+class CollectorNoprofile extends StatefulWidget {
+  // const CollectorNoprofile({super.key});
 
   @override
-  State<FarmerList> createState() => _FarmerListState();
+  State<CollectorNoprofile> createState() => _CollectorNoprofileState();
 }
 
-class _FarmerListState extends State<FarmerList> {
-        String MyEmail="";
-
-    @override
-   void initState(){
-    farmer_profile();
-    super.initState();
-   }
-
+class _CollectorNoprofileState extends State<CollectorNoprofile> {
+  // var collectorId;
+  // @override
+  //  void initState(){
+    
+  //     setState(() {
+  //   });
+    
+  //   super.initState();
+    
+    
+  //  }
   @override
   Widget build(BuildContext context) {
-    Size size =MediaQuery.of(context).size;
-
+    var _profile=false;
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-                  drawer:
-      Drawer(
-        // width:250,
-        backgroundColor:Color.fromARGB(253, 243, 242, 247),
-        child:ListView(
-          children: [
-            UserAccountsDrawerHeader(
-              
-              accountName: Text("Hello"), accountEmail: Text(MyEmail),
-            currentAccountPicture:
-            CircleAvatar(backgroundColor:Colors.white,
-            backgroundImage:AssetImage('images/agri.jpg'))
-            ),
-             ListTile(
-              title:Text('Home',style:TextStyle(color:Colors.black,fontSize:16 )),
-              leading:Icon(Icons.home,color:Colors.blue),
-              trailing:Icon(Icons.arrow_forward),
-              onTap:()=>  Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) =>Admin()
-                )
-              )
-            ),
-
-            ListTile(
-              title:Text('Collectors List',style:TextStyle(color:Colors.black,fontSize:16 )),
-              leading:Icon(Icons.people,color:Colors.blue),
-              trailing:Icon(Icons.arrow_forward),
-              onTap:()=>  Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => CollectorList()
-                )
-              )
-            ),
-            ListTile(
-              title:Text('Farmers List',style:TextStyle(color:Colors.black,fontSize:16 )),
-              leading:Icon(Icons.people,color:Colors.blue),
-              trailing:Icon(Icons.arrow_forward),
-                onTap:()=>  Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) =>FarmerList()
-                )
-              )
-            ),
-            ListTile(
-              title:Text('Log Out',style:TextStyle(color:Colors.black,fontSize:16 )),
-              leading:Icon(Icons.logout_rounded,color:Colors.blue),
-              onTap:()=> logout(context),
-              trailing:Icon(Icons.arrow_forward),
-
-
-            ),
-
-
-          ],
-        ),
-      ),
+                  drawer:SideBar(),
 
       appBar: AppBar(
-        title: Text("Admin"),
+        title: Text("Collectors"),
         actions: [
           IconButton(
             onPressed: () {
@@ -106,12 +60,12 @@ class _FarmerListState extends State<FarmerList> {
       Column(
         children: [
           SizedBox(height:20),
-          Text("Farmers Logged In Detail"),
+          Text("Farmers Profile Detail"),
           Container(
             padding:EdgeInsets.only(top: 20,right:10),
             child:
              StreamBuilder(
-                     stream:FirebaseFirestore.instance.collection('Farmers').snapshots(),
+                     stream:FirebaseFirestore.instance.collection('Farmers_profile').snapshots(),
 
                      builder:(BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot2)
                      {
@@ -124,14 +78,14 @@ class _FarmerListState extends State<FarmerList> {
                          DocumentSnapshot myprofile  = snapshot2.data!.docs[index2];
                          
                          print('....................................>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-                         print(myprofile.get('UserId'));
+                         print(myprofile.get('userId'));
                         
 
                          // var user =collectorId.id ;
                          //      CollectionReference ref = FirebaseFirestore.instance.collection('users');
                          //                     ref.doc(user).get() ;
                              return  StreamBuilder(
-            stream:FirebaseFirestore.instance.collection('Farmers_profile').where('userId',isEqualTo: myprofile['UserId']) .snapshots(),
+            stream:FirebaseFirestore.instance.collection('Collection Details').where('userId',isEqualTo: myprofile['userId']) .snapshots(),
 
             builder:(BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot)
             {
@@ -141,8 +95,8 @@ class _FarmerListState extends State<FarmerList> {
                shrinkWrap: true,
                itemCount: snapshot.data!.docs.length,
                itemBuilder: (context,index){
-               DocumentSnapshot farmerId = snapshot.data!.docs[index];
-               profileModel models = profileModel.fromJson(farmerId);
+               DocumentSnapshot collectionId = snapshot.data!.docs[index];
+               CollectionDetails models = CollectionDetails.fromJson(collectionId);
                 
                 
                var obj='';
@@ -150,15 +104,18 @@ class _FarmerListState extends State<FarmerList> {
                  return  
                   GestureDetector(
                                  
-                                   onTap:()async{
+                                   onTap:()
+                                   {
                                    
-                                   await Navigator.push(context,
-                                   MaterialPageRoute(
-                                   builder: (context) =>EditFarmerProfile(models),
+                                  //  await Navigator.push(context,
+                                  //  MaterialPageRoute(
+                                  //  builder: (context) =>EditCollectorProfile(models),
+                                  // //  settings: RouteSettings(arguments:collectorId .id ),
+                                  //  // settings: RouteSettings(arguments:collectorId[index] ),
 
 
-                                   )
-                                   );
+                                  //  )
+                                  //  );
 
 
                                    },
@@ -209,7 +166,7 @@ class _FarmerListState extends State<FarmerList> {
                                                    mainAxisAlignment: MainAxisAlignment.center,
                                                    crossAxisAlignment: CrossAxisAlignment.center,
                                                    children: [
-                                                       Text(farmerId .get('email'),
+                                                       Text('name',
                                                          style: TextStyle(
                                                            fontWeight: FontWeight.bold,
                                                            fontSize: 12,
@@ -232,7 +189,7 @@ class _FarmerListState extends State<FarmerList> {
                                              mainAxisAlignment: MainAxisAlignment.center,
                                              crossAxisAlignment: CrossAxisAlignment.end,
                                              children: [             
-                                                 Text('Edit',
+                                                 Text('Collected',
                                                    style: TextStyle(
                                                      fontWeight: FontWeight.w500,
                                                      fontSize: 13,
@@ -266,8 +223,8 @@ class _FarmerListState extends State<FarmerList> {
                                    
                                    await Navigator.push(context,
                                    MaterialPageRoute(
-                                   builder: (context) => Profile(),
-                                   settings: RouteSettings(arguments:myprofile .id ),
+                                   builder: (context) => CollectionDetailPage(),
+                                  //  settings: RouteSettings(arguments:myprofile .id ),
                                    // settings: RouteSettings(arguments:collectorId[index] ),
 
 
@@ -323,7 +280,7 @@ class _FarmerListState extends State<FarmerList> {
                                                    mainAxisAlignment: MainAxisAlignment.center,
                                                    crossAxisAlignment: CrossAxisAlignment.center,
                                                    children: [
-                                                       Text(myprofile .get('email'),
+                                                       Text('email',
                                                          style: TextStyle(
                                                            fontWeight: FontWeight.bold,
                                                            fontSize: 12,
@@ -346,7 +303,7 @@ class _FarmerListState extends State<FarmerList> {
                                              mainAxisAlignment: MainAxisAlignment.center,
                                              crossAxisAlignment: CrossAxisAlignment.end,
                                              children: [             
-                                                 Text('Create',
+                                                 Text('Collect',
                                                    style: TextStyle(
                                                      fontWeight: FontWeight.w500,
                                                      fontSize: 13,
@@ -397,25 +354,4 @@ class _FarmerListState extends State<FarmerList> {
       ),
     );
   }
- farmer_profile() async{
-      User? user =await  FirebaseAuth.instance.currentUser;
-       await  FirebaseFirestore.instance.collection('users').doc(user!.uid).get().
-            then((DocumentSnapshot documentSnapshot){
-                          if(documentSnapshot.exists){
-                         var myEmail=documentSnapshot.get("email");
-                              setState(() {
-                              MyEmail= myEmail;
-                            });
-
-                            print(".........................................");
-                            print(MyEmail);
-                                                }
-                                                }
-                                           
-    );
-
-  }
-
-
-
 }

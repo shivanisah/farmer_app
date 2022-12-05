@@ -1,5 +1,7 @@
+import 'package:agriculture/AdminPages/Noprofile.dart';
 import 'package:agriculture/CollectorPages/CollectorProfileView.dart';
 import 'package:agriculture/CollectorPages/Profile.dart';
+import 'package:agriculture/models/collection_detail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +54,7 @@ class _SideBarState extends State<SideBar> {
 
             ListTile(
               title:Text('Profile',style:TextStyle(color:Colors.black,fontSize:16 )),
-              leading:Icon(Icons.person_add_alt_1_rounded,color:Colors.blue),
+              leading:Icon(Icons.person,color:Colors.blue),
               trailing:Icon(Icons.arrow_forward),
               onTap:()=>  Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => CollectorViewProfile()
@@ -138,7 +140,7 @@ class _SideBarState extends State<SideBar> {
 
   collector_profile() async{
   User? user =await  FirebaseAuth.instance.currentUser;
-  await  FirebaseFirestore.instance.collection('users').doc(user!.uid).get().
+  await  FirebaseFirestore.instance.collection('Collectors').doc(user!.uid).get().
             then((DocumentSnapshot documentSnapshot){
                           if(documentSnapshot.exists){
                           var myEmail=documentSnapshot.get("email");

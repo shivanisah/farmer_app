@@ -6,8 +6,7 @@ class profileModel{
   String id;
   String name;
   String Email;
-  // final String imagePath;
-  // // File idproof;
+  String imageUrl;
   String phone_number;
   String additional_number;
   String permanent_address;
@@ -18,6 +17,7 @@ class profileModel{
   Timestamp date;
   String lat_long_location;
   String userId;
+  String follow_up_time;
    
 
    profileModel(
@@ -36,6 +36,8 @@ class profileModel{
       required this.lat_long_location,
       required this.date,
       required this.userId,
+      required this.imageUrl,
+      required this.follow_up_time
     }
    );
    factory profileModel.fromJson(DocumentSnapshot  snapshot){
@@ -54,6 +56,8 @@ class profileModel{
         date:snapshot['date'],
         userId:snapshot['userId'],
         lat_long_location:snapshot['lat_long_location'], 
+        imageUrl: snapshot['imageUrl'],
+        follow_up_time:snapshot['follow_up_time']
     );
    }
 

@@ -1,14 +1,17 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:agriculture/AdminPages/CollectorMainPage.dart';
 import 'package:agriculture/AdminPages/FarmerMainPage.dart';
 import 'package:agriculture/FarmerPages/drawer.dart';
 import 'package:agriculture/UsersPages/Admin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import "package:flutter/material.dart";
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../UsersPages/Farmer.dart';
 import '../login.dart';
@@ -35,9 +38,34 @@ class _ProfileState extends State<Profile> {
   TextEditingController noBeehiveController =TextEditingController();
   TextEditingController capacityController =TextEditingController();
   TextEditingController latLong_locationController =TextEditingController();
+  TextEditingController followUpTimeController =TextEditingController();
+
+
 
   bool loading = false;
-  final formkey = GlobalKey<FormState>();
+  final formkey = GlobalKey<FormState>(); 
+  var url;
+   var _image;
+  final picker = ImagePicker();
+Future _pickImageCamera() async {
+  loading=true;
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+    final pickedImageFile = File(pickedImage!.path);
+    setState(() {
+      _image = pickedImageFile;
+      loading=false;
+    });
+  }
+
+  Future uploadImage(var _image) async{
+    Reference reference = FirebaseStorage.instance.ref().child('Images').child(emailController.text+'.jpg');
+    await reference.putFile(_image);
+    url = await reference.getDownloadURL();
+    return url;
+  }
+
+
+
  @override
   void initState(){
 
@@ -62,7 +90,7 @@ class _ProfileState extends State<Profile> {
           children: [
             UserAccountsDrawerHeader(
               
-              accountName: Text("Hello"), accountEmail: Text("MyEmail"),
+              accountName: Text("Hello"), accountEmail: Text(MyEmail),
             currentAccountPicture:CircleAvatar(backgroundColor:Colors.white,
             backgroundImage:AssetImage('images/agri.jpg'))
             ),
@@ -78,7 +106,7 @@ class _ProfileState extends State<Profile> {
 
             ListTile(
               title:Text('Collectors List',style:TextStyle(color:Colors.black,fontSize:16 )),
-              leading:Icon(Icons.person_add_alt_1_rounded,color:Colors.blue),
+              leading:Icon(Icons.people,color:Colors.blue),
               trailing:Icon(Icons.arrow_forward),
               onTap:()=>  Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => CollectorList()
@@ -87,7 +115,7 @@ class _ProfileState extends State<Profile> {
             ),
             ListTile(
               title:Text('Farmers List',style:TextStyle(color:Colors.black,fontSize:16 )),
-              leading:Icon(Icons.person_rounded,color:Colors.blue),
+              leading:Icon(Icons.people,color:Colors.blue),
               trailing:Icon(Icons.arrow_forward),
                 onTap:()=>  Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) =>FarmerList()
@@ -135,7 +163,21 @@ class _ProfileState extends State<Profile> {
                     Stack(
                       
                       children: [
-                        buildImage(),
+                        ClipOval(
+                        child:_image!=null?Image.file(_image,fit:BoxFit.cover,
+                        width:128,
+                        height:128,
+                        ) :
+                          
+
+                        Image.asset('images/agri.jpg',                                     
+                         fit:BoxFit.cover,
+                        width:128,
+                        height:128,
+                      ),
+
+                        ),
+
                         Positioned(
                           bottom:0,
                           right:4,
@@ -383,30 +425,63 @@ class _ProfileState extends State<Profile> {
 
                   ),
               SizedBox(height:20),
+                  TextFormField(
+
+                    controller:followUpTimeController,
+                    decoration:InputDecoration(
+                    labelText:"Follow up time",
+                      icon: Icon(Icons.timelapse),
+
+                    ),
+
+                    validator:(value){
+                      if(value!.isEmpty){
+                              return "This field is required";
+
+                      }
+                      else{
+                        return null;
+                      }
+                    },
+
+                  ),
+              SizedBox(height:20),
+
+
 
 
          
 
             loading?Center(child:CircularProgressIndicator(),):Container(
                     child: ElevatedButton(onPressed:()async{
+                                                                            setState(() {
+                          loading=true;
+                        });
+
                   if(formkey.currentState!.validate())
 
                       {
                         try{
-                                                      setState(() {
-                          loading=true;
-                        });
-                       
+                                               String imgUrl;               
+                        if(_image!=null){
+                           imgUrl = await uploadImage(_image);
+
+                        }  else{
+                           imgUrl = "";
+
+
+                        }
+
                         await FireStoreService().createProfile(nameController.text,emailController.text,phoneController.text,additionalNumberController.text,permanentAddController.text,
                         temporaryAddController.text,latLong_locationController.text,capacityController.text,possibleMigController.text,noBeehiveController.text,
-                        farmer_id);
+                        farmer_id,imgUrl,followUpTimeController.text);
                         setState(() {
                           loading=false;
                         });
                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Profile created successfully"),backgroundColor:Colors.green));
 
                         Timer(Duration(seconds: 2),(){
-                   Navigator.push(context,MaterialPageRoute(builder:(context)=>Admin()));
+                   Navigator.push(context,MaterialPageRoute(builder:(context)=>FarmerList()));
 
                         });
   
@@ -479,17 +554,26 @@ Widget buildEditIcon(Color color)=>
       buildCircle(
         color:Colors.white,
         all:3,
-        child: buildCircle(
-          color:color,
-          all:8,
-          child: Icon(
-            Icons.edit,
-            size:20,
-            color:Colors.white,
-          
+        child: InkWell(
+          onTap:()=>{
+             _pickImageCamera(),
+          },
+          child: buildCircle(
+            color:color,
+            all:8,
+            child: Icon(
+              Icons.add_a_photo,
+        
+              size:20,
+              color:Colors.white,
+            
+            ),
+                      
+        
           ),
         ),
       );
+
 
 
  Widget buildCircle({

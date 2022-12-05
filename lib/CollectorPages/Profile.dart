@@ -281,7 +281,8 @@ Future _pickImageCamera() async {
 
 
                         }
-            await FireStoreService().CollectorProfileCreate(nameController.text,emailController.text,phoneController.text,Collector_id,imgUrl);
+                       
+            await FireStoreService().CollectorProfileCreate(nameController.text,emailController.text,phoneController.text,Collector_id,imgUrl );
             setState(() {
                           loading=false;
                         });
@@ -289,7 +290,7 @@ Future _pickImageCamera() async {
                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Profile created successfully"),backgroundColor:Colors.green));
 
                       
-                   Navigator.push(context,MaterialPageRoute(builder:(context)=>Admin()));
+                   Navigator.push(context,MaterialPageRoute(builder:(context)=>CollectorList()));
 
                 
 

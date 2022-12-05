@@ -95,10 +95,14 @@ class _FarmerState extends State<Farmer> {
 
           IconButton(
             onPressed: () {
-              logout(context);
+              // logout(context);
+              Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) =>ViewProfile()
+                )
+              );
             },
             icon: Icon(
-              Icons.logout,
+              Icons.person,
             ),
           ),
           
@@ -128,7 +132,7 @@ class _FarmerState extends State<Farmer> {
   }
  farmer_profile() async{
       User? user =await  FirebaseAuth.instance.currentUser;
-       await  FirebaseFirestore.instance.collection('users').doc(user!.uid).get().
+       await  FirebaseFirestore.instance.collection('Farmers').doc(user!.uid).get().
             then((DocumentSnapshot documentSnapshot){
                           if(documentSnapshot.exists){
                          var myEmail=documentSnapshot.get("email");

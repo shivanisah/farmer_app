@@ -156,14 +156,43 @@ var uid="";
                         //   ),
                         // ),
                 const SizedBox(height:24),
+                                                                      Stack(
+                      
+                      children: [
+                        // buildImage(),
+                                                ClipOval(
+                          // clipper: ,
+                          child:profile.imageUrl==''?  Image.asset('images/agri.jpg',                                     
+                         fit:BoxFit.cover,
+                        width:128,
+                        height:128,
+                      ):
+                        Image.network(profile.imageUrl,fit:BoxFit.cover,
+                        width:128,
+                        height:128,
+                        ) 
+                          
+
+
+                        ),
+
+                        Positioned(
+                          bottom:0,
+                          right:4,
+                          child: buildEditIcon(Colors.blue)
+                          ),
+                        ]
+                        ),
+  
+
                 ProfileWidget(profile),
                         
                 SizedBox(height:20),
                 Center(child:ElevatedButton(onPressed:(){
-                Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => EditFarmerProfile(profile)
-                )
-                );
+                // Navigator.pushReplacement(context,
+                // MaterialPageRoute(builder: (context) => EditFarmerProfile(profile)
+                // )
+                // );
               },
               child:Text("Edit  Profile"),
                ) ,),
@@ -242,7 +271,7 @@ var uid="";
  
  farmer_profile() async{
       User? user =await  FirebaseAuth.instance.currentUser;
-       await  FirebaseFirestore.instance.collection('users').doc(user!.uid).get().
+       await  FirebaseFirestore.instance.collection('Farmers').doc(user!.uid).get().
             then((DocumentSnapshot documentSnapshot){
                           if(documentSnapshot.exists){
                          var myEmail=documentSnapshot.get("email");
@@ -270,6 +299,44 @@ var uid="";
       ),
     );
   }
+Widget buildEditIcon(Color color)=>
+      buildCircle(
+        color:Colors.white,
+        all:3,
+        child: InkWell(
+          onTap:()=>{
+            //  _pickImageCamera(),
+          },
+          child: buildCircle(
+            color:color,
+            all:8,
+            child: Icon(
+              Icons.edit,
+        
+              size:20,
+              color:Colors.white,
+            
+            ),
+                      
+        
+          ),
+        ),
+      );
+
+
+ Widget buildCircle({
+  required Widget child,
+  required double all,
+  required Color color,
+ })=>ClipOval(
+   child: Container(
+    color:color,
+    child:child,
+    padding:EdgeInsets.all(all),
+    
+    ),
+ );     
+
 
  
 
