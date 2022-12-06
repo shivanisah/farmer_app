@@ -58,6 +58,7 @@ class profileModel{
         lat_long_location:snapshot['lat_long_location'], 
         imageUrl: snapshot['imageUrl'],
         follow_up_time:snapshot['follow_up_time']
+
     );
    }
 

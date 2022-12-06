@@ -12,6 +12,7 @@ class CollectionDetails{
   Timestamp date;
 
 
+
 CollectionDetails({
   required this.number_of_receiver,
   required this.number_of_hive,

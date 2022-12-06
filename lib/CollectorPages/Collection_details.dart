@@ -472,6 +472,7 @@ style: TextStyle(color: Palette.lightPurple,fontSize:
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(29),
+
                                       boxShadow: [
                                                     BoxShadow(
                                                       offset: Offset(0,0),

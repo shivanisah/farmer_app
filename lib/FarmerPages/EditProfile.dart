@@ -416,6 +416,7 @@ class _EditFarmerProfileState extends State<EditFarmerProfile> {
                         try{
                                                       setState(() {
                           loading=true;
+
                         });
                        
                         await FireStoreService().updateFarmerProfile(nameController.text,emailController.text,phoneController.text,additionalNumberController.text,permanentAddController.text,

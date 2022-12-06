@@ -55,7 +55,7 @@ class _SideBarState extends State<SideBar> {
             ListTile(
               title:Text('Profile',style:TextStyle(color:Colors.black,fontSize:16 )),
               leading:Icon(Icons.person,color:Colors.blue),
-              trailing:Icon(Icons.person),
+              trailing:Icon(Icons.arrow_forward),
               onTap:()=>  Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => CollectorViewProfile()
                 )

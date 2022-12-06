@@ -105,6 +105,7 @@ Widget  getuser(){
           IconButton(
             onPressed: () {
               logout(context);
+              
             },
             icon: Icon(
               Icons.logout,

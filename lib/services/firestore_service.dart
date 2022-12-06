@@ -68,6 +68,7 @@ class FireStoreService{
           "phone_number":phone_number,
           "UserId":UserId,
           "imageUrl":imageUrl,
+          
          
 
         });

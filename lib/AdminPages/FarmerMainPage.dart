@@ -105,8 +105,12 @@ class _FarmerListState extends State<FarmerList> {
       body:
       Column(
         children: [
-          SizedBox(height:20),
-          Text("Farmers Logged In Detail"),
+          SizedBox(height:24),
+                            Text("Farmers Logged In Detail",
+style: TextStyle(color:Colors.blueAccent,fontSize: 
+                                    19,fontWeight: FontWeight.bold),),
+                                    SizedBox(height: 13,),
+
           Container(
             padding:EdgeInsets.only(top: 20,right:10),
             child:
@@ -266,7 +270,7 @@ class _FarmerListState extends State<FarmerList> {
                                    
                                    await Navigator.push(context,
                                    MaterialPageRoute(
-                                   builder: (context) => Profile(),
+                                   builder: (context) => Profile(myprofile),
                                    settings: RouteSettings(arguments:myprofile .id ),
                                    // settings: RouteSettings(arguments:collectorId[index] ),
 

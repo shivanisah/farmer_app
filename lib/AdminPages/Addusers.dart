@@ -2,16 +2,18 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'login.dart';
+
+import 'CollectorMainPage.dart';
+import 'FarmerMainPage.dart';
 // import 'model.dart';
 
-class Register extends StatefulWidget {
+class AddUser extends StatefulWidget {
   @override
-  _RegisterState createState() => _RegisterState();
+  _AddUserState createState() => _AddUserState();
 }
 
-class _RegisterState extends State<Register> {
-  _RegisterState();
+class _AddUserState extends State<AddUser> {
+  _AddUserState();
 
   bool showProgress = false;
   bool visible = false;
@@ -46,17 +48,17 @@ class _RegisterState extends State<Register> {
       // backgroundColor: Colors.orange[900],
       body: Stack(
         children: [
-          Container(          
-            decoration:BoxDecoration(
+//           Container(          
+//             decoration:BoxDecoration(
               
-              image:DecorationImage(image:AssetImage("images/agri.jpg"),
+//               image:DecorationImage(image:AssetImage("images/agri.jpg"),
             
-            fit:BoxFit.fill
-            ),
+//             fit:BoxFit.fill
+//             ),
            
-            )
-),
-Container(color:Colors.black.withOpacity(0.50)),
+//             )
+// ),
+// Container(color:Colors.black.withOpacity(0.50)),
 
 
           SingleChildScrollView(
@@ -79,10 +81,10 @@ Container(color:Colors.black.withOpacity(0.50)),
                             height: 80,
                           ),
                           Text(
-                            "Register Now",
+                            "Add User",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              // color: Colors.white,
                               fontSize: 40,
                             ),
                           ),
@@ -98,17 +100,17 @@ Container(color:Colors.black.withOpacity(0.50)),
                             prefixIcon:Icon(Icons.email),
 
                               filled: true,
-                              fillColor: Colors.white,
+                              // fillColor: Colors.white,
                               hintText: 'Email',
                               enabled: true,
                               contentPadding: const EdgeInsets.only(
                                   left: 14.0, bottom: 8.0, top: 8.0),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: new BorderSide(color: Colors.white),
+                                // borderSide: new BorderSide(color: Colors.white),
                                 borderRadius: new BorderRadius.circular(20),
                               ),
                               enabledBorder: UnderlineInputBorder(
-                                borderSide: new BorderSide(color: Colors.white),
+                                // borderSide: new BorderSide(color: Colors.white),
                                 borderRadius: new BorderRadius.circular(20),
                               ),
                             ),
@@ -281,7 +283,7 @@ Container(color:Colors.black.withOpacity(0.50)),
                                       passwordController.text, role);
                                 },
                                 child: Text(
-                                  "Register",
+                                  "Add",
                                   style: TextStyle(
                                     fontSize: 20,
                                   ),
@@ -290,24 +292,6 @@ Container(color:Colors.black.withOpacity(0.50)),
                               ),
                           //   ],
                           // ),
-                          SizedBox(height:20),
-                         TextButton(
-                                onPressed: () {
-                                  CircularProgressIndicator();
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => LoginPage(),
-                                    ),
-                                  );
-                                },
-                                child: Text(
-                                  "Already have an account? Login",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ),
 
 
                         ],
@@ -336,13 +320,14 @@ Container(color:Colors.black.withOpacity(0.50)),
                  CollectionReference ref = FirebaseFirestore.instance.collection('Collectors');
            ref.doc(user.uid).set({'email': emailController.text, 'role': role,'UserId':user.uid,});
            Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => LoginPage()));
+        context, MaterialPageRoute(builder: (context) => CollectorList()));
                }
-              else {
+               else
+              {
                  CollectionReference ref = FirebaseFirestore.instance.collection('Farmers');
            ref.doc(user.uid).set({'email': emailController.text, 'role': role,'UserId':user.uid});
            Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => LoginPage()));
+        context, MaterialPageRoute(builder: (context) => FarmerList()));
   
               }
 

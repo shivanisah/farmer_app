@@ -19,8 +19,8 @@ import '../services/firestore_service.dart';
 import 'ViewProfile.dart';
 
 class Profile extends StatefulWidget {
-  // User user ;
-  // Profile(this.user);
+  // var myprofile ;
+  Profile(myprofile);
   @override
   State<Profile> createState() => _ProfileState();
 }

@@ -123,289 +123,308 @@ class _CollectorListState extends State<CollectorList> {
         ],
       ),
       body:
-      Column(
-        children: [
-          SizedBox(height:20),
-          Text("Collectors Logged In Detail"),
-          Container(
-            padding:EdgeInsets.only(top: 20,right:10),
-            child:
-             StreamBuilder(
-                     stream:FirebaseFirestore.instance.collection('Collectors').snapshots(),
+      
+            
 
-                     builder:(BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot2)
-                     {
-                       if(snapshot2.hasData){
-
-                       return ListView.builder(
-                         shrinkWrap: true,
-                         itemCount: snapshot2.data!.docs.length,
-                         itemBuilder: (context,index2){
-                         DocumentSnapshot myprofile  = snapshot2.data!.docs[index2];
-                         
-                         print('....................................>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-                         print(myprofile.get('UserId'));
-                        
-
-                         // var user =collectorId.id ;
-                         //      CollectionReference ref = FirebaseFirestore.instance.collection('users');
-                         //                     ref.doc(user).get() ;
-                             return  StreamBuilder(
-            stream:FirebaseFirestore.instance.collection('Collectors_profile').where('UserId',isEqualTo: myprofile['UserId']) .snapshots(),
-
-            builder:(BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot)
-            {
-             if(snapshot.hasData){
-               if(snapshot.data!.docs.length>0){
-             return ListView.builder(
-               shrinkWrap: true,
-               itemCount: snapshot.data!.docs.length,
-               itemBuilder: (context,index){
-                 _index = index;
-               DocumentSnapshot collectorId = snapshot.data!.docs[index];
-               Collector_profile_model models = Collector_profile_model.frommJson(collectorId);
-                
-                
-               var obj='';
-  
-                 return  
-                  GestureDetector(
-                                 
-                                   onTap:()async{
-                                   
-                                   await Navigator.push(context,
-                                   MaterialPageRoute(
-                                   builder: (context) =>EditCollectorProfile(models),
-                                  //  settings: RouteSettings(arguments:collectorId .id ),
-                                   // settings: RouteSettings(arguments:collectorId[index] ),
-
-
-                                   )
-                                   );
-
-
-                                   },
-                                   child: Container(
-                                     margin: EdgeInsets.only(bottom: 15),
-                                     height: 62,
-                                   
-                                     decoration: BoxDecoration(
-                                       
-                                       borderRadius: BorderRadius.circular(10),
-                                       color: Colors.white,
-                                            boxShadow: [
-                                                       BoxShadow(
-                                                         offset: Offset(0,7),
-                                                         blurRadius: 10,
-                                                         color:Colors.black.withOpacity(0.3),
-                                         
-                                                       )
-                                                     ]
-
-                                     ),
-                                     child: Padding(
-                                       padding: const EdgeInsets.all(10.0),
-                                       child: Row(
-                                         mainAxisAlignment: MainAxisAlignment.start,
-                                         crossAxisAlignment: CrossAxisAlignment.center,
-                                         children: [
-                                           Container(
-                                             width: 60,
-                                             
-                                             
-                                             decoration: BoxDecoration(
-                                               // color: Colors.red,
-                                               borderRadius: BorderRadius.circular(10),
-                                               image: DecorationImage(
-                                                 fit: BoxFit.cover,
-                                                 image: AssetImage('images/agri.jpg'),)
-                                             ),
-                                           )
-                                           ,
-                                           Row(
-                                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                             
-                                             children: [
-                                               Padding(
-                                                 padding: const EdgeInsets.only(left: 12),
-                                                 child: Column(
-                                                   mainAxisAlignment: MainAxisAlignment.center,
-                                                   crossAxisAlignment: CrossAxisAlignment.center,
-                                                   children: [
-                                                       Text(collectorId .get('email'),
-                                                         style: TextStyle(
-                                                           fontWeight: FontWeight.bold,
-                                                           fontSize: 12,
-                                                           color:   Colors.black.withOpacity(0.8)
-                                                         ),
-                                                       ),
-                                                       // Text('',
-                                                       //   style: TextStyle(
-                                                       //     fontWeight: FontWeight.w500,
-                                                       //     fontSize: 13,
-                                                       //     color: Colors.black.withOpacity(0.4),
-                                                       //   ),
-                                                       // ),
-                                                   
-                                                   ],
-                                                 ),
-                                               ),
-                                                                             SizedBox(width: size.width*0.13,),
-                                           Column(
-                                             mainAxisAlignment: MainAxisAlignment.center,
-                                             crossAxisAlignment: CrossAxisAlignment.end,
-                                             children: [             
-                                                 Text('Edit',
-                                                   style: TextStyle(
-                                                     fontWeight: FontWeight.w500,
-                                                     fontSize: 13,
-                                                     color: Colors.blue,
-                                                   ),
-                                                 ),
-
-                                             
-                                             ],
-                                           )
-
-                                             ],
-                                           ),
-                                         ],
-                                       ),
-                                     ),
-                                   ),
-                                 );
-                 }
-                );
-
-               }
-   
-             }else{
-               return Text("");
-             }
-
-               return GestureDetector(
-                                 
-                                   onTap:()async{
-                                   
-                                   await Navigator.push(context,
-                                   MaterialPageRoute(
-                                   builder: (context) => CollectorProfile(),
-                                   settings: RouteSettings(arguments:myprofile .id ),
-                                   // settings: RouteSettings(arguments:collectorId[index] ),
-
-
-                                   )
-                                   );
-
-
-                                   },
-                                   child: Container(
-                                     margin: EdgeInsets.only(bottom: 15),
-                                     height: 62,
-                                   
-                                     decoration: BoxDecoration(
-                                       
-                                       borderRadius: BorderRadius.circular(10),
-                                       color: Colors.white,
-                                            boxShadow: [
-                                                       BoxShadow(
-                                                         offset: Offset(0,7),
-                                                         blurRadius: 10,
-                                                         color:Colors.black.withOpacity(0.3),
-                                         
-                                                       )
-                                                     ]
-
-                                     ),
-                                     child: Padding(
-                                       padding: const EdgeInsets.all(10.0),
-                                       child: Row(
-                                         mainAxisAlignment: MainAxisAlignment.start,
-                                         crossAxisAlignment: CrossAxisAlignment.center,
-                                         children: [
-                                           Container(
-                                             width: 60,
-                                             
-                                             
-                                             decoration: BoxDecoration(
-                                               // color: Colors.red,
-                                               borderRadius: BorderRadius.circular(10),
-                                               image: DecorationImage(
-                                                 fit: BoxFit.cover,
-                                                 image: AssetImage('images/agri.jpg'),)
-                                             ),
-                                           )
-                                           ,
-                                           Row(
-                                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                             
-                                             children: [
-                                               Padding(
-                                                 padding: const EdgeInsets.only(left: 12),
-                                                 child: Column(
-                                                   mainAxisAlignment: MainAxisAlignment.center,
-                                                   crossAxisAlignment: CrossAxisAlignment.center,
-                                                   children: [
-                                                       Text(myprofile .get('email'),
-                                                         style: TextStyle(
-                                                           fontWeight: FontWeight.bold,
-                                                           fontSize: 12,
-                                                           color:   Colors.black.withOpacity(0.8)
-                                                         ),
-                                                       ),
-                                                       // Text('',
-                                                       //   style: TextStyle(
-                                                       //     fontWeight: FontWeight.w500,
-                                                       //     fontSize: 13,
-                                                       //     color: Colors.black.withOpacity(0.4),
-                                                       //   ),
-                                                       // ),
-                                                   
-                                                   ],
-                                                 ),
-                                               ),
-                                                                             SizedBox(width: size.width*0.13,),
-                                           Column(
-                                             mainAxisAlignment: MainAxisAlignment.center,
-                                             crossAxisAlignment: CrossAxisAlignment.end,
-                                             children: [             
-                                                 Text('Create',
-                                                   style: TextStyle(
-                                                     fontWeight: FontWeight.w500,
-                                                     fontSize: 13,
-                                                     color: Colors.blue,
-                                                   ),
-                                                 ),
-
-                                             
-                                             ],
-                                           )
-
-                                             ],
-                                           ),
-                                         ],
-                                       ),
-                                     ),
-                                   ),
-                                 )
-                        
-                              ;
-            }
-
-
-    );
-                               
-                         }
-                         );
-                         }
-                         
-                         return Text("");
-                         }
-                         ),
+         SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+           child: Column(
+            children: [
+              SizedBox(height:24),
+                              Text("Collectors Logged In Details",
+              style: TextStyle(color:Colors.blueAccent,fontSize: 
+                                      19,fontWeight: FontWeight.bold),),
+                                      SizedBox(height: 13,),
          
-          ),
-        ],
-      ),
+              Container(
+                padding:EdgeInsets.only(top: 20,right:10),
+                child:
+                 StreamBuilder(
+                         stream:FirebaseFirestore.instance.collection('Collectors').snapshots(),
+                  
+                         builder:(BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot2)
+                         {
+                           if(snapshot2.hasData){
+                  
+                           return ListView.builder(
+                            // scrollDirection: Axis.vertical,
+                             shrinkWrap: true,
+                             itemCount: snapshot2.data!.docs.length,
+                             itemBuilder: (context,index2){
+                             DocumentSnapshot myprofile  = snapshot2.data!.docs[index2];
+                             
+                             print('....................................>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+                             print(myprofile.get('UserId'));
+                            
+                  
+                             // var user =collectorId.id ;
+                             //      CollectionReference ref = FirebaseFirestore.instance.collection('users');
+                             //                     ref.doc(user).get() ;
+                                 return  StreamBuilder(
+                stream:FirebaseFirestore.instance.collection('Collectors_profile').where('UserId',isEqualTo: myprofile['UserId']) .snapshots(),
+                  
+                builder:(BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot)
+                {
+                 if(snapshot.hasData){
+                   if(snapshot.data!.docs.length>0){
+                 return ListView.builder(
+                  // scrollDirection: Axis.vertical,
+                   shrinkWrap: true,
+                   itemCount: snapshot.data!.docs.length,
+                   itemBuilder: (context,index){
+                     _index = index;
+                   DocumentSnapshot collectorId = snapshot.data!.docs[index];
+                   Collector_profile_model models = Collector_profile_model.frommJson(collectorId);
+                    
+                    
+                   var obj='';
+                    
+                     return  
+                      GestureDetector(
+                                     
+                                       onTap:()async{
+                                       
+                                       await Navigator.push(context,
+                                       MaterialPageRoute(
+                                       builder: (context) =>EditCollectorProfile(models),
+                                      //  settings: RouteSettings(arguments:collectorId .id ),
+                                       // settings: RouteSettings(arguments:collectorId[index] ),
+                          
+                          
+                                       )
+                                       );
+                          
+                          
+                                       },
+                                       child: 
+                                        
+                                       Container(
+                                           margin: EdgeInsets.only(bottom: 15),
+                                           height: 62,
+                                         
+                                           decoration: BoxDecoration(
+                                             
+                                             borderRadius: BorderRadius.circular(10),
+                                             color: Colors.white,
+                                                  boxShadow: [
+                                                             BoxShadow(
+                                                               offset: Offset(0,7),
+                                                               blurRadius: 10,
+                                                               color:Colors.black.withOpacity(0.3),
+                                               
+                                                             )
+                                                           ]
+                                             
+                                           ),
+                                           child: Padding(
+                                             padding: const EdgeInsets.all(10.0),
+                                             child: Row(
+                                               mainAxisAlignment: MainAxisAlignment.start,
+                                               crossAxisAlignment: CrossAxisAlignment.center,
+                                               children: [
+                                                 
+                                                  
+                                                   Container(
+                                                     width: 60,
+                                                     
+                                                     
+                                                     decoration: BoxDecoration(
+                                                       // color: Colors.red,
+                                                       borderRadius: BorderRadius.circular(10),
+                                                       image: DecorationImage(
+                                                         fit: BoxFit.cover,
+                                                         image: AssetImage('images/agri.jpg'),)
+                                                     ),
+                                                   ),
+                                                 
+                                                 
+                                                 Row(
+                                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                   
+                                                   children: [
+                                                     Padding(
+                                                       padding: const EdgeInsets.only(left: 12),
+                                                       child: Column(
+                                                         mainAxisAlignment: MainAxisAlignment.center,
+                                                         crossAxisAlignment: CrossAxisAlignment.center,
+                                                         children: [
+                                                             Text(collectorId .get('email'),
+                                                               style: TextStyle(
+                                                                 fontWeight: FontWeight.bold,
+                                                                 fontSize: 12,
+                                                                 color:   Colors.black.withOpacity(0.8)
+                                                               ),
+                                                             ),
+                                                             // Text('',
+                                                             //   style: TextStyle(
+                                                             //     fontWeight: FontWeight.w500,
+                                                             //     fontSize: 13,
+                                                             //     color: Colors.black.withOpacity(0.4),
+                                                             //   ),
+                                                             // ),
+                                                         
+                                                         ],
+                                                       ),
+                                                     ),
+                                                                               SizedBox(width: size.width*0.13,),
+                                                 Column(
+                                                   mainAxisAlignment: MainAxisAlignment.center,
+                                                   crossAxisAlignment: CrossAxisAlignment.end,
+                                                   children: [             
+                                                       Text('Edit',
+                                                         style: TextStyle(
+                                                           fontWeight: FontWeight.w500,
+                                                           fontSize: 13,
+                                                           color: Colors.blue,
+                                                         ),
+                                                       ),
+                                             
+                                                   
+                                                   ],
+                                                 )
+                                             
+                                                   ],
+                                                 ),
+                                               ],
+                                             ),
+                                           ),
+                                         ),
+                                       
+                                     );
+                     }
+                    );
+                  
+                   }
+                     
+                 }else{
+                   return Text("");
+                 }
+                  
+                   return GestureDetector(
+                                     
+                                       onTap:()async{
+                                       
+                                       await Navigator.push(context,
+                                       MaterialPageRoute(
+                                       builder: (context) => CollectorProfile(),
+                                       settings: RouteSettings(arguments:myprofile .id ),
+                                       // settings: RouteSettings(arguments:collectorId[index] ),
+                  
+                  
+                                       )
+                                       );
+                  
+                  
+                                       },
+                                       child: Container(
+                                         margin: EdgeInsets.only(bottom: 15),
+                                         height: 62,
+                                       
+                                         decoration: BoxDecoration(
+                                           
+                                           borderRadius: BorderRadius.circular(10),
+                                           color: Colors.white,
+                                                boxShadow: [
+                                                           BoxShadow(
+                                                             offset: Offset(0,7),
+                                                             blurRadius: 10,
+                                                             color:Colors.black.withOpacity(0.3),
+                                             
+                                                           )
+                                                         ]
+                  
+                                         ),
+                                         child: Padding(
+                                           padding: const EdgeInsets.all(10.0),
+                                           child: Row(
+                                             mainAxisAlignment: MainAxisAlignment.start,
+                                             crossAxisAlignment: CrossAxisAlignment.center,
+                                             children: [
+                                               Container(
+                                                 width: 60,
+                                                 
+                                                 
+                                                 decoration: BoxDecoration(
+                                                   // color: Colors.red,
+                                                   borderRadius: BorderRadius.circular(10),
+                                                   image: DecorationImage(
+                                                     fit: BoxFit.cover,
+                                                     image: AssetImage('images/agri.jpg'),)
+                                                 ),
+                                               )
+                                               ,
+                                               Row(
+                                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                 
+                                                 children: [
+                                                   Padding(
+                                                     padding: const EdgeInsets.only(left: 12),
+                                                     child: Column(
+                                                       mainAxisAlignment: MainAxisAlignment.center,
+                                                       crossAxisAlignment: CrossAxisAlignment.center,
+                                                       children: [
+                                                           Text(myprofile .get('email'),
+                                                             style: TextStyle(
+                                                               fontWeight: FontWeight.bold,
+                                                               fontSize: 12,
+                                                               color:   Colors.black.withOpacity(0.8)
+                                                             ),
+                                                           ),
+                                                           // Text('',
+                                                           //   style: TextStyle(
+                                                           //     fontWeight: FontWeight.w500,
+                                                           //     fontSize: 13,
+                                                           //     color: Colors.black.withOpacity(0.4),
+                                                           //   ),
+                                                           // ),
+                                                       
+                                                       ],
+                                                     ),
+                                                   ),
+                                                                                 SizedBox(width: size.width*0.13,),
+                                               Column(
+                                                 mainAxisAlignment: MainAxisAlignment.center,
+                                                 crossAxisAlignment: CrossAxisAlignment.end,
+                                                 children: [             
+                                                     Text('Create',
+                                                       style: TextStyle(
+                                                         fontWeight: FontWeight.w500,
+                                                         fontSize: 13,
+                                                         color: Colors.blue,
+                                                       ),
+                                                     ),
+                  
+                                                 
+                                                 ],
+                                               )
+                  
+                                                 ],
+                                               ),
+                                             ],
+                                           ),
+                                         ),
+                                       ),
+                                     )
+                            
+                                  ;
+                }
+                  
+                  
+                      );
+                                   
+                             }
+                             );
+                             }
+                             
+                             return Text("");
+                             }
+                             ),
+                       
+              ),
+            ],
+                 ),
+         ),
+      
 
     );
   }

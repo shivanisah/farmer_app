@@ -164,6 +164,7 @@ var Uid="";
                         height:128,
                       ):
                         Image.network(profile.imageUrl,fit:BoxFit.cover,
+
                         width:128,
                         height:128,
                         ) 

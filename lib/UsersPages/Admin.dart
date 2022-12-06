@@ -15,6 +15,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../AdminPages/AddUser.dart';
+import '../AdminPages/Addusers.dart';
+
 
 
 class Admin extends StatefulWidget {
@@ -233,10 +236,10 @@ class _AdminState extends State<Admin> {
                             
                             GestureDetector(
                               onTap: (){
-                //                   Navigator.pushReplacement(context,
-                //          MaterialPageRoute(builder: (context) => CollectorList()
-                //   )
-                // );
+                                  Navigator.pushReplacement(context,
+                         MaterialPageRoute(builder: (context) =>Adduser()
+                  )
+                );
                               },
                               child: Container(
                                 height: size.height*0.22,
@@ -262,7 +265,7 @@ class _AdminState extends State<Admin> {
                                     
                                     Icon(Icons.people,color:colorPurple,size:28),
                                     SizedBox(height:5),
-                                    Text('Assignments',style: TextStyle(color:Colors.black,fontSize:16))
+                                    Text('Add Users',style: TextStyle(color:Colors.black,fontSize:16))
                                   ],
                                 ),
                               ),

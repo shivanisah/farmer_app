@@ -212,14 +212,14 @@ var uid="";
                               
                                 Text("Not created profile"),
                                                 SizedBox(height:20),
-                ElevatedButton(onPressed:(){
-                Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => Profile())
-                );
-                },
-                                child:Text("Create Profile"),
+                // ElevatedButton(onPressed:(){
+                // Navigator.pushReplacement(context,
+                // MaterialPageRoute(builder: (context) => Profile())
+                // );
+                // },
+                                // child:Text("Create Profile"),
 
-                              ),
+                              // ),
                             ],
                           ),
                         );

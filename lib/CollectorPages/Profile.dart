@@ -266,6 +266,7 @@ Future _pickImageCamera() async {
                     child: ElevatedButton(onPressed:()async{
                                                 setState(() {
                           loading=true;
+
                         });
 
                   if(formkey.currentState!.validate())

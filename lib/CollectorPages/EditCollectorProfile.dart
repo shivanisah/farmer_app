@@ -125,6 +125,7 @@ class _EditCollectorProfileState extends State<EditCollectorProfile> {
               child:Form(
                  key: formkey,
 
+
                 child:Column(
                   // mainAxisAlignment:MainAxisAlignment.start,
                   crossAxisAlignment:CrossAxisAlignment.center,

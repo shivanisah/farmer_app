@@ -138,6 +138,7 @@ class _FarmerState extends State<Farmer> {
                          var myEmail=documentSnapshot.get("email");
                               setState(() {
                               MyEmail= myEmail;
+
                             });
 
                             print(".........................................");
