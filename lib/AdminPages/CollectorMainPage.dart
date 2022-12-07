@@ -248,7 +248,7 @@ class _CollectorListState extends State<CollectorList> {
                                                          mainAxisAlignment: MainAxisAlignment.center,
                                                          crossAxisAlignment: CrossAxisAlignment.center,
                                                          children: [
-                                                             Text(collectorId .get('email'),
+                                                             Text(myprofile .get('email'),
                                                                style: TextStyle(
                                                                  fontWeight: FontWeight.bold,
                                                                  fontSize: 12,

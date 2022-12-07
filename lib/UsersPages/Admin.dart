@@ -1,9 +1,7 @@
 // import 'dart:html';
 
 import 'package:agriculture/AdminPages/CollectorMainPage.dart';
-import 'package:agriculture/AdminPages/CollectorProfileList.dart';
 import 'package:agriculture/AdminPages/FarmerMainPage.dart';
-import 'package:agriculture/AdminPages/FarmerProfileList.dart';
 import 'package:agriculture/AdminPages/Noprofile.dart';
 import 'package:agriculture/CollectorPages/Farmers_detail.dart';
 import 'package:agriculture/CollectorPages/Profile.dart';
@@ -16,7 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../AdminPages/AddUser.dart';
-import '../AdminPages/Addusers.dart';
 
 
 

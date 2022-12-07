@@ -190,31 +190,31 @@ class _EditCollectorProfileState extends State<EditCollectorProfile> {
                       }
                     },
                   ),
-              SizedBox(height:20),
-                                TextFormField(
-                    controller:emailController,
-                    decoration:InputDecoration(
-                    labelText:"Email",
-                      icon: Icon(Icons.email)
+              // SizedBox(height:20),
+              //                   TextFormField(
+              //       controller:emailController,
+              //       decoration:InputDecoration(
+              //       labelText:"Email",
+              //         icon: Icon(Icons.email)
 
-                    ),
-                                      validator:(value){
-                      if(value!.isEmpty){
-                              return null;
+              //       ),
+              //                         validator:(value){
+              //         if(value!.isEmpty){
+              //                 return null;
 
-                      }
-                       if(!RegExp(
-                                    "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-                                .hasMatch(value)){
-                          return "Enter correct email";
-                      }
-                      else {
-                        return null;
-                      }
-                    },
+              //         }
+              //          if(!RegExp(
+              //                       "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+              //                   .hasMatch(value)){
+              //             return "Enter correct email";
+              //         }
+              //         else {
+              //           return null;
+              //         }
+              //       },
 
 
-                  ),
+              //     ),
               SizedBox(height:20),
 
 

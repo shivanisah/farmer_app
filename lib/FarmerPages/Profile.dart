@@ -217,31 +217,31 @@ Future _pickImageCamera() async {
                       }
                     },
                   ),
-              SizedBox(height:20),
-                                TextFormField(
-                    controller:emailController,
-                    decoration:InputDecoration(
-                    labelText:"Email",
-                      icon: Icon(Icons.email)
+              // SizedBox(height:20),
+                  //               TextFormField(
+                  //   controller:emailController,
+                  //   decoration:InputDecoration(
+                  //   labelText:"Email",
+                  //     icon: Icon(Icons.email)
 
-                    ),
-                                      validator:(value){
-                      if(value!.isEmpty){
-                              return null;
+                  //   ),
+                  //                     validator:(value){
+                  //     if(value!.isEmpty){
+                  //             return null;
 
-                      }
-                       if(!RegExp(
-                                    "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-                                .hasMatch(value)){
-                          return "Enter correct email";
-                      }
-                      else {
-                        return null;
-                      }
-                    },
+                  //     }
+                  //      if(!RegExp(
+                  //                   "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                  //               .hasMatch(value)){
+                  //         return "Enter correct email";
+                  //     }
+                  //     else {
+                  //       return null;
+                  //     }
+                  //   },
 
 
-                  ),
+                  // ),
               SizedBox(height:20),
 
 
@@ -454,13 +454,14 @@ Future _pickImageCamera() async {
 
             loading?Center(child:CircularProgressIndicator(),):Container(
                     child: ElevatedButton(onPressed:()async{
-                                                                            setState(() {
-                          loading=true;
-                        });
 
                   if(formkey.currentState!.validate())
 
                       {
+                        setState(() {
+                          loading=true;
+                        });
+
                         try{
                                                String imgUrl;               
                         if(_image!=null){

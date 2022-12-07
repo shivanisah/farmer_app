@@ -108,7 +108,8 @@ Future addCollectionDetail(String number_of_receiver,String number_of_hive,Strin
             "moisture_report":moisture_report,
             "follow_of_status":follow_of_status,
             "userId":userId,
-            "date":DateFormat.yMMMEd().format(DateTime.now())+ DateFormat.jm().format(DateTime.now()),
+            // "date":DateFormat.yMMMEd().format(DateTime.now())+ DateFormat.jm().format(DateTime.now()),
+            "date":DateTime.now(),
 
 
 

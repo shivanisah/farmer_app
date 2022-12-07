@@ -21,6 +21,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool _isObscure3 = true;
   bool visible = false;
+  bool loading= false;
   final _formkey = GlobalKey<FormState>();
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
@@ -173,16 +174,13 @@ Container(color:Colors.black.withOpacity(0.50)),
                         SizedBox(
                           height: 20,
                         ),
-                        MaterialButton(
+                loading?CircularProgressIndicator():MaterialButton(
                           shape: RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20.0))),
                           elevation: 5.0,
                           height: 40,
                           onPressed: () {
-                            setState(() {
-                              visible = true;
-                            });
                             signIn(
                                 emailController.text, passwordController.text);
                           },
@@ -219,15 +217,15 @@ Container(color:Colors.black.withOpacity(0.50)),
                         SizedBox(
                           height: 10,
                         ),
-                        Visibility(
-                            maintainSize: true,
-                            maintainAnimation: true,
-                            maintainState: true,
-                            visible: visible,
-                            child: Container(
-                                child: CircularProgressIndicator(
-                              color: Colors.white,
-                            ))),
+                        // Visibility(
+                        //     maintainSize: true,
+                        //     maintainAnimation: true,
+                        //     maintainState: true,
+                        //     visible: visible,
+                        //     child: Container(
+                        //         child: CircularProgressIndicator(
+                        //       color: Colors.white,
+                        //     ))),
                       ],
                     ),
                   ),
@@ -244,6 +242,10 @@ Container(color:Colors.black.withOpacity(0.50)),
   void signIn(String email,String password) async{
     if(_formkey.currentState!.validate())
     {
+                                  setState(() {
+                              loading = true;
+                            });
+
       try{
         UserCredential userCredential = await 
         FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -254,6 +256,9 @@ Container(color:Colors.black.withOpacity(0.50)),
 
            
     route();  
+                                  setState(() {
+                              loading = false;
+                            });
 
       }on FirebaseAuthException catch (e){
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text(e.message.toString()),backgroundColor:Colors.red));

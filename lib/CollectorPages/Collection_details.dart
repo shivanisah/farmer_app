@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:agriculture/AdminPages/Noprofile.dart';
 import 'package:agriculture/CollectorPages/Farmers_detail.dart';
 import 'package:agriculture/CollectorPages/drawer.dart';
 import 'package:agriculture/FarmerPages/Profile.dart';
@@ -50,8 +51,8 @@ class _CollectionDetailPageState extends State<CollectionDetailPage> {
     Size size = MediaQuery.of(context).size;
 
     var time = DateTime.now();
-    String formattedDate = DateFormat.yMMMEd().format(time);
-    String formattedTime= DateFormat.jm().format(time);
+    var formattedDate = DateFormat.yMMMEd().format(time);
+    var formattedTime= DateFormat.jm().format(time);
     final  userId = ModalRoute.of(context)!.settings.arguments as String;
 
     return Scaffold(
@@ -534,7 +535,8 @@ style: TextStyle(color: Palette.lightPurple,fontSize:
                       ||  collectedLocationController.text==""|| moistureController.text==""|| followUpController.text==""
                       ){
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("All fields are required"),backgroundColor:Colors.red));
-                      }else{
+                      }
+                      else{
                         setState(() {
                           loading=true;
                         });
@@ -547,7 +549,7 @@ style: TextStyle(color: Palette.lightPurple,fontSize:
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Collection done successfully"),backgroundColor:Colors.green));
 
                         Timer(Duration(seconds: 2),(){
-                         Navigator.push(context,MaterialPageRoute(builder:(context)=>Farmers_Detail()));
+                         Navigator.push(context,MaterialPageRoute(builder:(context)=>CollectorNoprofile()));
 
 
                         });

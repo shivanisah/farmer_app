@@ -77,13 +77,6 @@ class _CollectorNoprofileState extends State<CollectorNoprofile> {
                          itemBuilder: (context,index2){
                          DocumentSnapshot myprofile  = snapshot2.data!.docs[index2];
                          
-                         print('....................................>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-                         print(myprofile.get('userId'));
-                        
-
-                         // var user =collectorId.id ;
-                         //      CollectionReference ref = FirebaseFirestore.instance.collection('users');
-                         //                     ref.doc(user).get() ;
                              return  StreamBuilder(
             stream:FirebaseFirestore.instance.collection('Collection Details').where('userId',isEqualTo: myprofile['userId']) .snapshots(),
 
@@ -166,7 +159,7 @@ class _CollectorNoprofileState extends State<CollectorNoprofile> {
                                                    mainAxisAlignment: MainAxisAlignment.center,
                                                    crossAxisAlignment: CrossAxisAlignment.center,
                                                    children: [
-                                                       Text('name',
+                                                       Text(myprofile.get('name'),
                                                          style: TextStyle(
                                                            fontWeight: FontWeight.bold,
                                                            fontSize: 12,
@@ -224,7 +217,7 @@ class _CollectorNoprofileState extends State<CollectorNoprofile> {
                                    await Navigator.push(context,
                                    MaterialPageRoute(
                                    builder: (context) => CollectionDetailPage(),
-                                  //  settings: RouteSettings(arguments:myprofile .id ),
+                                   settings: RouteSettings(arguments:myprofile.get('userId') ),
                                    // settings: RouteSettings(arguments:collectorId[index] ),
 
 
@@ -280,7 +273,7 @@ class _CollectorNoprofileState extends State<CollectorNoprofile> {
                                                    mainAxisAlignment: MainAxisAlignment.center,
                                                    crossAxisAlignment: CrossAxisAlignment.center,
                                                    children: [
-                                                       Text('email',
+                                                       Text(myprofile.get('name'),
                                                          style: TextStyle(
                                                            fontWeight: FontWeight.bold,
                                                            fontSize: 12,

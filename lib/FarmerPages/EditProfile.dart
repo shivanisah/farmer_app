@@ -196,31 +196,31 @@ class _EditFarmerProfileState extends State<EditFarmerProfile> {
                       }
                     },
                   ),
-              SizedBox(height:20),
-                                TextFormField(
-                    controller:emailController,
-                    decoration:InputDecoration(
-                    labelText:"Email",
-                      icon: Icon(Icons.email)
+              // SizedBox(height:20),
+              //                   TextFormField(
+              //       controller:emailController,
+              //       decoration:InputDecoration(
+              //       labelText:"Email",
+              //         icon: Icon(Icons.email)
 
-                    ),
-                                      validator:(value){
-                      if(value!.isEmpty){
-                              return null;
+              //       ),
+              //                         validator:(value){
+              //         if(value!.isEmpty){
+              //                 return null;
 
-                      }
-                       if(!RegExp(
-                                    "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-                                .hasMatch(value)){
-                          return "Enter correct email";
-                      }
-                      else {
-                        return null;
-                      }
-                    },
+              //         }
+              //          if(!RegExp(
+              //                       "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+              //                   .hasMatch(value)){
+              //             return "Enter correct email";
+              //         }
+              //         else {
+              //           return null;
+              //         }
+              //       },
 
 
-                  ),
+              //     ),
               SizedBox(height:20),
 
 
@@ -413,11 +413,12 @@ class _EditFarmerProfileState extends State<EditFarmerProfile> {
                   if(formkey.currentState!.validate())
 
                       {
-                        try{
-                                                      setState(() {
+                      setState(() {
                           loading=true;
 
                         });
+
+                        try{
                        
                         await FireStoreService().updateFarmerProfile(nameController.text,emailController.text,phoneController.text,additionalNumberController.text,permanentAddController.text,
                         temporaryAddController.text,latLong_locationController.text,capacityController.text,possibleMigController.text,noBeehiveController.text,

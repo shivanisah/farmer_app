@@ -1,3 +1,4 @@
+import 'package:agriculture/AdminPages/Noprofile.dart';
 import 'package:agriculture/CollectorPages/Collection_details.dart';
 import 'package:agriculture/CollectorPages/Farmers_detail.dart';
 import 'package:agriculture/CollectorPages/drawer.dart';

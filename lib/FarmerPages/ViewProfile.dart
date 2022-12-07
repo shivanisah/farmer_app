@@ -242,7 +242,7 @@ var uid="";
       fontWeight:FontWeight.bold,fontSize:15
     )),
     SizedBox(height:10),
-        Text("Email:  "+profile.Email,style:TextStyle(
+        Text("Email:  "+MyEmail,style:TextStyle(
       fontWeight:FontWeight.bold,fontSize:15
     )),
         SizedBox(height:10),

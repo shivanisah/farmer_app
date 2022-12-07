@@ -206,33 +206,33 @@ Future _pickImageCamera() async {
                     },
                   ),
               SizedBox(height:20),
-                                TextFormField(
+              //                   TextFormField(
                     
-                    controller:emailController,
-                    decoration:InputDecoration(
-                    labelText:"Email",
-                    // enabled:false,
+              //       controller:emailController,
+              //       decoration:InputDecoration(
+              //       labelText:"Email",
+              //       // enabled:false,
 
-                      icon: Icon(Icons.email,color: Colors.blue,)
+              //         icon: Icon(Icons.email,color: Colors.blue,)
 
-                    ),
-                  validator:(value){
-                      if(value!.isEmpty){
-                              return "This field is required";
+              //       ),
+              //     validator:(value){
+              //         if(value!.isEmpty){
+              //                 return "This field is required";
 
-                      }
-                      else if(!RegExp(
-                                    "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-                                .hasMatch(value)){
-                          return "Enter correct email";
-                      }
-                      else {
-                        return null;
-                      }
-                    },
+              //         }
+              //         else if(!RegExp(
+              //                       "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+              //                   .hasMatch(value)){
+              //             return "Enter correct email";
+              //         }
+              //         else {
+              //           return null;
+              //         }
+              //       },
 
-                  ),
-              SizedBox(height:20),
+              //     ),
+              // SizedBox(height:20),
 
 
                     TextFormField(
@@ -264,14 +264,15 @@ Future _pickImageCamera() async {
 
       loading?CircularProgressIndicator():Container(
                     child: ElevatedButton(onPressed:()async{
-                                                setState(() {
-                          loading=true;
-
-                        });
 
                   if(formkey.currentState!.validate())
 
                       {
+                         setState(() {
+                          loading=true;
+
+                        });
+
                         try{
                         String imgUrl;               
                         if(_image!=null){

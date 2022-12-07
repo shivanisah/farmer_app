@@ -202,18 +202,18 @@ class _AdduserState extends State<Adduser> {
                                             borderRadius: new BorderRadius.circular(29),
                                           ),
                                         ),
-                                                                    validator: (value) {
-                              if (value!.length == 0) {
-                                return "Email cannot be empty";
-                              }
-                              if (!RegExp(
-                                      "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-                                  .hasMatch(value)) {
-                                return ("Please enter a valid email");
-                              } else {
-                                return null;
-                              }
-                            },
+                            //                                         validator: (value) {
+                            //   if (value!.length == 0) {
+                            //     return "Email cannot be empty";
+                            //   }
+                            //   if (!RegExp(
+                            //           "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                            //       .hasMatch(value)) {
+                            //     return ("Please enter a valid email");
+                            //   } else {
+                            //     return null;
+                            //   }
+                            // },
 
                                     ),
                                      
@@ -281,17 +281,19 @@ class _AdduserState extends State<Adduser> {
                                             borderRadius: new BorderRadius.circular(29),
                                           ),
                                         ),
-                          validator: (value) {
-                              RegExp regex = new RegExp(r'^.{6,}$');
-                              if (value!.isEmpty) {
-                                return "Password cannot be empty";
-                              }
-                              if (!regex.hasMatch(value)) {
-                                return ("please enter valid password min. 6 character");
-                              } else {
-                                return null;
-                              }
-                            },
+                          // validator: (value) {
+                          //     RegExp regex = new RegExp(r'^.{6,}$');
+                          //     if (value!.isEmpty) {
+                            
+
+                          //       return "Password cannot be empty";
+                          //     }
+                          //     if (!regex.hasMatch(value)) {
+                          //       return ("please enter valid password min. 6 character");
+                          //     } else {
+                          //       return null;
+                          //     }
+                          //   },
 
                                     ),
                                      
@@ -357,14 +359,14 @@ class _AdduserState extends State<Adduser> {
                                             borderRadius: new BorderRadius.circular(29),
                                           ),
                                         ),
-                              validator: (value) {
-                              if (confirmpassController.text !=
-                                  passwordController.text) {
-                                return "Password did not match";
-                              } else {
-                                return null;
-                              }
-                            },
+                            //   validator: (value) {
+                            //   if (confirmpassController.text !=
+                            //       passwordController.text) {
+                            //     return "Password did not match";
+                            //   } else {
+                            //     return null;
+                            //   }
+                            // },
   
                                     ),
                                      
@@ -443,9 +445,6 @@ class _AdduserState extends State<Adduser> {
                      elevation: 18.0,
                       onPressed:()
                       {
-                    setState(() {
-                          loading=true;
-                        });
 
                         signUp(emailController.text,
                         passwordController.text, role);
@@ -472,9 +471,18 @@ class _AdduserState extends State<Adduser> {
     
   }
  void signUp(String email, String password, String role ) async {
-    if (_formkey.currentState!.validate())
+    // if (_formkey.currentState!.validate())
+                          if(emailController.text==""|| passwordController.text==""||confirmpassController.text==""
+                      
+                      ){
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("All fields are required"),backgroundColor:Colors.red));
+                      }
+else
      {
-      
+        setState(() {
+                          loading=true;
+                        });
+
           await _auth.createUserWithEmailAndPassword(email: email, password: password)
           .then((value) {
 
